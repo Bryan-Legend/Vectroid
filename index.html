@@ -1202,6 +1202,62 @@ footer {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* === MUSIC BUTTON === */
+.music-btn {
+  flex-shrink: 0;
+  margin-left: auto;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(0,240,255,0.25);
+  border-radius: 4px;
+  background: rgba(0,240,255,0.05);
+  color: var(--accent);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.music-btn:hover {
+  border-color: rgba(0,240,255,0.5);
+  background: rgba(0,240,255,0.1);
+  box-shadow: 0 0 12px rgba(0,240,255,0.15);
+}
+
+.music-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.music-btn .bar {
+  transition: transform 0.3s, opacity 0.3s;
+  transform-origin: center;
+}
+
+.music-btn.muted .bar:nth-child(1) { transform: scaleY(0.3); opacity: 0.3; }
+.music-btn.muted .bar:nth-child(2) { transform: scaleY(0.15); opacity: 0.2; }
+.music-btn.muted .bar:nth-child(3) { transform: scaleY(0.3); opacity: 0.3; }
+.music-btn.muted .bar:nth-child(4) { transform: scaleY(0.15); opacity: 0.2; }
+.music-btn.muted .bar:nth-child(5) { transform: scaleY(0.3); opacity: 0.3; }
+
+.music-btn:not(.muted) .bar {
+  animation: eqBounce 1.2s ease-in-out infinite alternate;
+}
+
+.music-btn:not(.muted) .bar:nth-child(1) { animation-delay: 0s; }
+.music-btn:not(.muted) .bar:nth-child(2) { animation-delay: 0.15s; }
+.music-btn:not(.muted) .bar:nth-child(3) { animation-delay: 0.3s; }
+.music-btn:not(.muted) .bar:nth-child(4) { animation-delay: 0.45s; }
+.music-btn:not(.muted) .bar:nth-child(5) { animation-delay: 0.6s; }
+
+@keyframes eqBounce {
+  0% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+  100% { transform: scaleY(0.5); }
+}
+
 /* === RESPONSIVE === */
 @media (max-width: 900px) {
   .premise-grid { grid-template-columns: 1fr; }
@@ -1249,7 +1305,20 @@ footer {
     <a href="#hazards" class="nav-link">Hazards</a>
     <a href="#items" class="nav-link">Items</a>
   </div>
+  <button class="music-btn muted" id="musicBtn" title="Toggle music" aria-label="Toggle music">
+    <svg viewBox="0 0 20 16" fill="none">
+      <rect class="bar" x="1" y="3" width="2" height="10" rx="1" fill="currentColor"/>
+      <rect class="bar" x="5" y="1" width="2" height="14" rx="1" fill="currentColor"/>
+      <rect class="bar" x="9" y="4" width="2" height="8" rx="1" fill="currentColor"/>
+      <rect class="bar" x="13" y="2" width="2" height="12" rx="1" fill="currentColor"/>
+      <rect class="bar" x="17" y="5" width="2" height="6" rx="1" fill="currentColor"/>
+    </svg>
+  </button>
 </nav>
+
+<audio id="bgMusic" loop preload="auto">
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
 
 <!-- HERO -->
 <section class="hero" id="top">
@@ -2297,6 +2366,43 @@ window.addEventListener('scroll', () => {
     link.classList.toggle('active', link.getAttribute('href') === '#' + current);
   });
 });
+
+// Music
+const music = document.getElementById('bgMusic');
+const musicBtn = document.getElementById('musicBtn');
+music.volume = 0.4;
+
+function playMusic() {
+  music.play().then(() => {
+    musicBtn.classList.remove('muted');
+  }).catch(() => {});
+}
+
+function toggleMusic() {
+  if (music.paused) {
+    playMusic();
+  } else {
+    music.pause();
+    musicBtn.classList.add('muted');
+  }
+}
+
+musicBtn.addEventListener('click', toggleMusic);
+
+// Autoplay on first user interaction
+let started = false;
+function autoStart() {
+  if (!started) {
+    started = true;
+    playMusic();
+    document.removeEventListener('click', autoStart);
+    document.removeEventListener('scroll', autoStart);
+    document.removeEventListener('keydown', autoStart);
+  }
+}
+document.addEventListener('click', autoStart);
+document.addEventListener('scroll', autoStart);
+document.addEventListener('keydown', autoStart);
 </script>
 </body>
 </html>
