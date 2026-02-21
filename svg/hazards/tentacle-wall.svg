@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Vertical wall line -->
+  <line x1="12" y1="6" x2="12" y2="58" stroke="#734C87" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Tentacle 1 (upper) curving right with hook tip -->
+  <path d="M12,16 Q22,14 30,18 Q38,22 42,18 Q46,16 48,18" stroke="#734C87" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <path d="M48,18 Q50,20 48,22" stroke="#734C87" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <!-- Tentacle 2 (middle) curving right with hook tip -->
+  <path d="M12,32 Q20,30 28,34 Q36,38 44,34 Q50,30 54,32" stroke="#734C87" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <path d="M54,32 Q56,34 54,36" stroke="#734C87" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <!-- Tentacle 3 (lower) curving right with hook tip -->
+  <path d="M12,48 Q20,46 26,50 Q34,54 40,48 Q44,44 46,46" stroke="#734C87" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <path d="M46,46 Q48,48 46,50" stroke="#734C87" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <!-- Small sucker dots along tentacles -->
+  <circle cx="22" cy="15" r="0.8" fill="#734C87" opacity="0.5"/>
+  <circle cx="32" cy="20" r="0.8" fill="#734C87" opacity="0.5"/>
+  <circle cx="24" cy="32" r="0.8" fill="#734C87" opacity="0.5"/>
+  <circle cx="36" cy="37" r="0.8" fill="#734C87" opacity="0.5"/>
+  <circle cx="22" cy="49" r="0.8" fill="#734C87" opacity="0.5"/>
+  <circle cx="34" cy="53" r="0.8" fill="#734C87" opacity="0.5"/>
+</svg>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Spore: Octagon body with web threads extending from vertices and connecting -->
+  <!-- Octagon body -->
+  <polygon points="32,14 42,18 48,28 48,38 42,48 32,52 22,48 16,38 16,28 22,18"
+    stroke="#9F0E7F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Inner octagon detail -->
+  <polygon points="32,20 38,23 42,30 42,36 38,43 32,46 26,43 22,36 22,30 26,23"
+    stroke="#9F0E7F" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+  <!-- Web threads from each vertex, curving and connecting -->
+  <!-- Thread from top -->
+  <path d="M32,14 Q34,4 40,2" stroke="#9F0E7F" stroke-width="0.8" stroke-linecap="round" opacity="0.7"/>
+  <!-- Thread from upper-right -->
+  <path d="M42,18 Q50,12 56,10" stroke="#9F0E7F" stroke-width="0.8" stroke-linecap="round" opacity="0.7"/>
+  <!-- Thread from right-upper -->
+  <path d="M48,28 Q56,26 60,20" stroke="#9F0E7F" stroke-width="0.8" stroke-linecap="round" opacity="0.65"/>
+  <!-- Thread from right-lower -->
+  <path d="M48,38 Q56,40 60,46" stroke="#9F0E7F" stroke-width="0.8" stroke-linecap="round" opacity="0.65"/>
+  <!-- Thread from lower-right -->
+  <path d="M42,48 Q48,54 54,56" stroke="#9F0E7F" stroke-width="0.8" stroke-linecap="round" opacity="0.7"/>
+  <!-- Thread from bottom -->
+  <path d="M32,52 Q30,60 26,62" stroke="#9F0E7F" stroke-width="0.8" stroke-linecap="round" opacity="0.7"/>
+  <!-- Thread from lower-left -->
+  <path d="M22,48 Q14,54 10,56" stroke="#9F0E7F" stroke-width="0.8" stroke-linecap="round" opacity="0.65"/>
+  <!-- Thread from left-lower -->
+  <path d="M16,38 Q8,40 4,46" stroke="#9F0E7F" stroke-width="0.8" stroke-linecap="round" opacity="0.65"/>
+  <!-- Thread from left-upper -->
+  <path d="M16,28 Q8,26 4,20" stroke="#9F0E7F" stroke-width="0.8" stroke-linecap="round" opacity="0.7"/>
+  <!-- Thread from upper-left -->
+  <path d="M22,18 Q14,12 8,10" stroke="#9F0E7F" stroke-width="0.8" stroke-linecap="round" opacity="0.7"/>
+  <!-- Web connections between thread endpoints (partial web) -->
+  <path d="M40,2 Q50,6 56,10" stroke="#9F0E7F" stroke-width="0.5" stroke-linecap="round" opacity="0.4"/>
+  <path d="M56,10 Q60,14 60,20" stroke="#9F0E7F" stroke-width="0.5" stroke-linecap="round" opacity="0.35"/>
+  <path d="M60,46 Q58,52 54,56" stroke="#9F0E7F" stroke-width="0.5" stroke-linecap="round" opacity="0.35"/>
+  <path d="M26,62 Q16,58 10,56" stroke="#9F0E7F" stroke-width="0.5" stroke-linecap="round" opacity="0.4"/>
+  <path d="M4,46 Q4,38 4,20" stroke="#9F0E7F" stroke-width="0.5" stroke-linecap="round" opacity="0.3"/>
+  <path d="M8,10 Q20,4 40,2" stroke="#9F0E7F" stroke-width="0.5" stroke-linecap="round" opacity="0.35"/>
+  <!-- Center dot -->
+  <circle cx="32" cy="33" r="2" fill="#9F0E7F" opacity="0.5"/>
+</svg>

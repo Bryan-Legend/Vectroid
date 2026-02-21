@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Pentagon shape -->
+  <polygon points="32,8 56,26 47,52 17,52 8,26" stroke="#FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Fracture/crack lines -->
+  <line x1="32" y1="8" x2="32" y2="38" stroke="#FFD700" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+  <line x1="18" y1="35" x2="38" y2="25" stroke="#FFD700" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+  <line x1="46" y1="35" x2="26" y2="45" stroke="#FFD700" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+  <!-- Small faint triangles inside showing split pieces -->
+  <polygon points="28,20 36,20 32,14" stroke="#FFD700" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
+  <polygon points="20,40 28,40 24,34" stroke="#FFD700" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
+  <polygon points="36,42 44,42 40,36" stroke="#FFD700" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.35"/>
+</svg>

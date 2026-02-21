@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- 4 parallel horizontal laser lines -->
+  <line x1="4" y1="18" x2="60" y2="18" stroke="#ff3333" stroke-width="1" stroke-linecap="round"/>
+  <line x1="4" y1="28" x2="60" y2="28" stroke="#ff3333" stroke-width="1" stroke-linecap="round"/>
+  <line x1="4" y1="38" x2="60" y2="38" stroke="#ff3333" stroke-width="1" stroke-linecap="round"/>
+  <line x1="4" y1="48" x2="60" y2="48" stroke="#ff3333" stroke-width="1" stroke-linecap="round"/>
+  <!-- Glow dots at left ends -->
+  <circle cx="4" cy="18" r="2" fill="#ff3333" opacity="0.9"/>
+  <circle cx="4" cy="28" r="2" fill="#ff3333" opacity="0.9"/>
+  <circle cx="4" cy="38" r="2" fill="#ff3333" opacity="0.9"/>
+  <circle cx="4" cy="48" r="2" fill="#ff3333" opacity="0.9"/>
+  <!-- Glow dots at right ends -->
+  <circle cx="60" cy="18" r="2" fill="#ff3333" opacity="0.9"/>
+  <circle cx="60" cy="28" r="2" fill="#ff3333" opacity="0.9"/>
+  <circle cx="60" cy="38" r="2" fill="#ff3333" opacity="0.9"/>
+  <circle cx="60" cy="48" r="2" fill="#ff3333" opacity="0.9"/>
+  <!-- Subtle glow halos -->
+  <circle cx="4" cy="18" r="3.5" fill="#ff3333" opacity="0.2"/>
+  <circle cx="60" cy="18" r="3.5" fill="#ff3333" opacity="0.2"/>
+  <circle cx="4" cy="48" r="3.5" fill="#ff3333" opacity="0.2"/>
+  <circle cx="60" cy="48" r="3.5" fill="#ff3333" opacity="0.2"/>
+</svg>

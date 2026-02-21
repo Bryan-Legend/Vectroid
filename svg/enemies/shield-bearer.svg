@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Pentagon body facing right -->
+  <polygon points="44,32 36,20 24,20 20,32 24,44 36,44" stroke="#C0C0C0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Center dot -->
+  <circle cx="32" cy="32" r="2" fill="#C0C0C0"/>
+  <!-- Thick arc shield on the left (front) face - bold curved line -->
+  <path d="M 14,16 C 6,24 6,40 14,48" stroke="#C0C0C0" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <!-- Shield glow/inner arc -->
+  <path d="M 16,20 C 10,26 10,38 16,44" stroke="#C0C0C0" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.5"/>
+</svg>

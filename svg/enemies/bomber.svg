@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Diamond shape angled as if flying (tilted slightly) -->
+  <polygon points="32,6 50,24 32,42 14,24" stroke="#FF69B4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Inner detail -->
+  <circle cx="32" cy="24" r="3" stroke="#FF69B4" stroke-width="1" fill="none"/>
+  <!-- Trail of 3 mines below in dotted pattern -->
+  <circle cx="32" cy="48" r="3.5" stroke="#FF69B4" stroke-width="1.5" fill="none"/>
+  <circle cx="32" cy="48" r="1" fill="#FF69B4"/>
+  <circle cx="24" cy="54" r="2.5" stroke="#FF69B4" stroke-width="1.5" fill="none" opacity="0.7"/>
+  <circle cx="24" cy="54" r="0.8" fill="#FF69B4" opacity="0.7"/>
+  <circle cx="40" cy="56" r="2" stroke="#FF69B4" stroke-width="1.5" fill="none" opacity="0.5"/>
+  <circle cx="40" cy="56" r="0.6" fill="#FF69B4" opacity="0.5"/>
+  <!-- Dotted trail connecting mines to bomber -->
+  <line x1="32" y1="42" x2="32" y2="45" stroke="#FF69B4" stroke-width="1" stroke-dasharray="1.5 2" stroke-linecap="round" opacity="0.5"/>
+</svg>

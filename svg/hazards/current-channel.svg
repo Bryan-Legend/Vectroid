@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Wavy flow line 1 -->
+  <path d="M6,22 Q16,18 26,22 Q36,26 46,22 Q52,20 58,22" stroke="#4CF3CC" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <!-- Wavy flow line 2 -->
+  <path d="M6,32 Q16,28 26,32 Q36,36 46,32 Q52,30 58,32" stroke="#4CF3CC" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <!-- Wavy flow line 3 -->
+  <path d="M6,42 Q16,38 26,42 Q36,46 46,42 Q52,40 58,42" stroke="#4CF3CC" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <!-- Chevron arrows pointing right along lines -->
+  <polyline points="18,19 22,22 18,25" stroke="#4CF3CC" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="40,19 44,22 40,25" stroke="#4CF3CC" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="28,29 32,32 28,35" stroke="#4CF3CC" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="48,29 52,32 48,35" stroke="#4CF3CC" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="18,39 22,42 18,45" stroke="#4CF3CC" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="40,39 44,42 40,45" stroke="#4CF3CC" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

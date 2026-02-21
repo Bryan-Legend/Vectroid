@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Horizontal belt band (top and bottom lines) -->
+  <line x1="4" y1="26" x2="60" y2="26" stroke="#F81C1F" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="4" y1="38" x2="60" y2="38" stroke="#F81C1F" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Belt surface fill hint -->
+  <rect x="4" y="26" width="56" height="12" fill="#F81C1F" opacity="0.06"/>
+  <!-- 4 rightward-pointing chevron arrows evenly spaced -->
+  <polyline points="12,28 18,32 12,36" stroke="#F81C1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="24,28 30,32 24,36" stroke="#F81C1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="36,28 42,32 36,36" stroke="#F81C1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="48,28 54,32 48,36" stroke="#F81C1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Belt roller circles at ends -->
+  <circle cx="6" cy="32" r="2" stroke="#F81C1F" stroke-width="1" opacity="0.5"/>
+  <circle cx="58" cy="32" r="2" stroke="#F81C1F" stroke-width="1" opacity="0.5"/>
+</svg>

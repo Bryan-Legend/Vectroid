@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Flat wide rectangle body -->
+  <rect x="14" y="24" width="30" height="16" stroke="#EAE0C8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Front (right) edge drawn brighter/thicker - the reflective surface -->
+  <line x1="44" y1="22" x2="44" y2="42" stroke="#EAE0C8" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Small incoming arrow -->
+  <line x1="56" y1="26" x2="46" y2="30" stroke="#EAE0C8" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+  <!-- Arrow bouncing off -->
+  <line x1="46" y1="30" x2="56" y2="34" stroke="#EAE0C8" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+  <!-- Small arrowhead on bounced arrow -->
+  <polyline points="54,32 56,34 54,36" stroke="#EAE0C8" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+  <!-- Impact sparkle at reflection point -->
+  <line x1="44" y1="30" x2="46" y2="30" stroke="#EAE0C8" stroke-width="0.8" stroke-linecap="round" opacity="0.5"/>
+  <!-- Surface detail lines on reflective edge -->
+  <line x1="44" y1="26" x2="46" y2="26" stroke="#EAE0C8" stroke-width="0.6" stroke-linecap="round" opacity="0.4"/>
+  <line x1="44" y1="32" x2="46" y2="32" stroke="#EAE0C8" stroke-width="0.6" stroke-linecap="round" opacity="0.4"/>
+  <line x1="44" y1="38" x2="46" y2="38" stroke="#EAE0C8" stroke-width="0.6" stroke-linecap="round" opacity="0.4"/>
+</svg>

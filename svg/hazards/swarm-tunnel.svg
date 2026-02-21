@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Two parallel lines forming tunnel walls -->
+  <line x1="4" y1="22" x2="60" y2="22" stroke="#FCE323" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="4" y1="42" x2="60" y2="42" stroke="#FCE323" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Tiny triangles flowing left to right through tunnel -->
+  <polygon points="8,32 12,30 12,34" fill="#FCE323" opacity="0.5"/>
+  <polygon points="16,28 20,26 20,30" fill="#FCE323" opacity="0.6"/>
+  <polygon points="18,36 22,34 22,38" fill="#FCE323" opacity="0.55"/>
+  <polygon points="26,32 30,30 30,34" fill="#FCE323" opacity="0.7"/>
+  <polygon points="30,26 34,24 34,28" fill="#FCE323" opacity="0.65"/>
+  <polygon points="34,38 38,36 38,40" fill="#FCE323" opacity="0.6"/>
+  <polygon points="42,30 46,28 46,32" fill="#FCE323" opacity="0.75"/>
+  <polygon points="48,34 52,32 52,36" fill="#FCE323" opacity="0.8"/>
+  <!-- Direction arrows on tunnel walls -->
+  <polyline points="52,24 56,26 52,28" stroke="#FCE323" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+  <polyline points="52,38 56,40 52,42" stroke="#FCE323" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+</svg>

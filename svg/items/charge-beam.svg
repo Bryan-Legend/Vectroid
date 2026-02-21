@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Concentric circles (energy ball core) -->
+  <circle cx="32" cy="32" r="4" stroke="#00f0ff" stroke-width="1.5" opacity="1"/>
+  <circle cx="32" cy="32" r="7.5" stroke="#00f0ff" stroke-width="1.2" opacity="0.7"/>
+  <circle cx="32" cy="32" r="11" stroke="#00f0ff" stroke-width="1" opacity="0.45"/>
+  <!-- Center bright dot -->
+  <circle cx="32" cy="32" r="1.5" fill="#00f0ff" opacity="0.9"/>
+  <!-- Energy arc from top -->
+  <path d="M32 4 Q36 12 34 20 Q33 24 32 26"
+        stroke="#00f0ff" stroke-width="1.5" stroke-linecap="round" opacity="0.85"/>
+  <!-- Energy arc from right -->
+  <path d="M60 32 Q52 36 44 34 Q40 33 38 32"
+        stroke="#00f0ff" stroke-width="1.5" stroke-linecap="round" opacity="0.85"/>
+  <!-- Energy arc from bottom -->
+  <path d="M32 60 Q28 52 30 44 Q31 40 32 38"
+        stroke="#00f0ff" stroke-width="1.5" stroke-linecap="round" opacity="0.85"/>
+  <!-- Energy arc from left -->
+  <path d="M4 32 Q12 28 20 30 Q24 31 26 32"
+        stroke="#00f0ff" stroke-width="1.5" stroke-linecap="round" opacity="0.85"/>
+  <!-- Particle dots along top arc -->
+  <circle cx="33" cy="9" r="1" fill="#00f0ff" opacity="0.5"/>
+  <circle cx="35" cy="15" r="0.8" fill="#00f0ff" opacity="0.65"/>
+  <!-- Particle dots along right arc -->
+  <circle cx="55" cy="33" r="1" fill="#00f0ff" opacity="0.5"/>
+  <circle cx="49" cy="35" r="0.8" fill="#00f0ff" opacity="0.65"/>
+  <!-- Particle dots along bottom arc -->
+  <circle cx="31" cy="55" r="1" fill="#00f0ff" opacity="0.5"/>
+  <circle cx="29" cy="49" r="0.8" fill="#00f0ff" opacity="0.65"/>
+  <!-- Particle dots along left arc -->
+  <circle cx="9" cy="31" r="1" fill="#00f0ff" opacity="0.5"/>
+  <circle cx="15" cy="29" r="0.8" fill="#00f0ff" opacity="0.65"/>
+  <!-- Diagonal spark accents (between main arcs) -->
+  <line x1="18" y1="18" x2="24" y2="24" stroke="#00f0ff" stroke-width="0.8" stroke-linecap="round" opacity="0.35"/>
+  <line x1="46" y1="18" x2="40" y2="24" stroke="#00f0ff" stroke-width="0.8" stroke-linecap="round" opacity="0.35"/>
+  <line x1="46" y1="46" x2="40" y2="40" stroke="#00f0ff" stroke-width="0.8" stroke-linecap="round" opacity="0.35"/>
+  <line x1="18" y1="46" x2="24" y2="40" stroke="#00f0ff" stroke-width="0.8" stroke-linecap="round" opacity="0.35"/>
+</svg>

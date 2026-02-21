@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Mirror panel (thick vertical rectangle) -->
+  <rect x="30" y="10" width="6" height="44" stroke="#EAE0C8" stroke-width="1.5" stroke-linejoin="round" fill="#EAE0C8" fill-opacity="0.15"/>
+  <!-- Reflective surface shine lines -->
+  <line x1="33" y1="14" x2="33" y2="20" stroke="#EAE0C8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="33" y1="28" x2="33" y2="34" stroke="#EAE0C8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="33" y1="42" x2="33" y2="48" stroke="#EAE0C8" stroke-width="0.6" opacity="0.5"/>
+  <!-- Incoming projectile from left -->
+  <circle cx="12" cy="36" r="2" fill="#EAE0C8" opacity="0.8"/>
+  <line x1="14" y1="36" x2="29" y2="32" stroke="#EAE0C8" stroke-width="1" stroke-linecap="round" stroke-dasharray="2,2"/>
+  <!-- Reflected projectile bouncing upper-right -->
+  <line x1="37" y1="32" x2="52" y2="18" stroke="#EAE0C8" stroke-width="1" stroke-linecap="round" stroke-dasharray="2,2"/>
+  <polyline points="48,16 52,18 50,22" stroke="#EAE0C8" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Impact point -->
+  <circle cx="32" cy="32" r="1.5" fill="#EAE0C8" opacity="0.6"/>
+</svg>

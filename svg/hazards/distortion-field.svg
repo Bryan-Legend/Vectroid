@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Circle area boundary -->
+  <circle cx="32" cy="32" r="22" stroke="#881A78" stroke-width="1.5" opacity="0.4"/>
+  <!-- Wavy distorted horizontal lines inside -->
+  <path d="M14,20 Q18,18 22,21 Q26,24 30,19 Q34,16 38,21 Q42,24 46,20 Q48,18 50,20" stroke="#881A78" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M12,26 Q17,29 22,25 Q27,22 32,27 Q37,30 42,25 Q47,22 52,26" stroke="#881A78" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M11,32 Q16,35 21,30 Q26,28 31,34 Q36,37 41,31 Q46,28 53,32" stroke="#881A78" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M12,38 Q17,41 22,36 Q27,33 32,39 Q37,42 42,37 Q47,34 52,38" stroke="#881A78" stroke-width="1.2" stroke-linecap="round"/>
+  <path d="M14,44 Q18,46 22,42 Q26,40 30,45 Q34,48 38,43 Q42,40 46,44 Q48,46 50,44" stroke="#881A78" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- Small distortion accent marks -->
+  <line x1="18" y1="16" x2="20" y2="14" stroke="#881A78" stroke-width="0.8" opacity="0.4" stroke-linecap="round"/>
+  <line x1="44" y1="48" x2="46" y2="50" stroke="#881A78" stroke-width="0.8" opacity="0.4" stroke-linecap="round"/>
+</svg>

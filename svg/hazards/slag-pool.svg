@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Irregular wavy-edged oval pool shape -->
+  <path d="M14,32 Q12,24 18,20 Q24,16 32,18 Q40,16 46,20 Q52,24 50,32 Q52,40 46,44 Q40,48 32,46 Q24,48 18,44 Q12,40 14,32 Z" fill="#FDF597" fill-opacity="0.15" stroke="#FDF597" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Inner wavy lines suggesting viscous liquid -->
+  <path d="M20,28 Q26,26 32,29 Q38,32 44,28" stroke="#FDF597" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+  <path d="M18,34 Q24,32 30,35 Q36,38 42,34" stroke="#FDF597" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+  <path d="M22,40 Q28,38 34,41 Q38,43 42,40" stroke="#FDF597" stroke-width="1" stroke-linecap="round" opacity="0.4"/>
+  <!-- Small bubble accents -->
+  <circle cx="26" cy="32" r="1.5" stroke="#FDF597" stroke-width="0.8" opacity="0.4"/>
+  <circle cx="36" cy="36" r="1" stroke="#FDF597" stroke-width="0.8" opacity="0.3"/>
+  <circle cx="30" cy="24" r="1" stroke="#FDF597" stroke-width="0.8" opacity="0.35"/>
+</svg>

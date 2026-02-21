@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Drone Queen: Large circle queen with crown triangles and tether lines to swarmers -->
+  <!-- Queen body (large circle) -->
+  <circle cx="32" cy="32" r="10" stroke="#FCE323" stroke-width="2" stroke-linecap="round"/>
+  <!-- Inner ring detail -->
+  <circle cx="32" cy="32" r="6" stroke="#FCE323" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+  <!-- Queen core -->
+  <circle cx="32" cy="32" r="2.5" fill="#FCE323" opacity="0.4"/>
+  <!-- Crown - 3 triangles on top of the circle -->
+  <polygon points="24,22 27,14 30,22" stroke="#FCE323" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="#FCE323" fill-opacity="0.15"/>
+  <polygon points="29,22 32,12 35,22" stroke="#FCE323" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="#FCE323" fill-opacity="0.2"/>
+  <polygon points="34,22 37,14 40,22" stroke="#FCE323" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="#FCE323" fill-opacity="0.15"/>
+  <!-- Tether/command line 1 - upper right to swarmer -->
+  <line x1="40" y1="26" x2="54" y2="14" stroke="#FCE323" stroke-width="0.7" stroke-linecap="round" opacity="0.6" stroke-dasharray="2,2"/>
+  <circle cx="54" cy="14" r="2.5" stroke="#FCE323" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+  <circle cx="54" cy="14" r="0.8" fill="#FCE323" opacity="0.6"/>
+  <!-- Tether/command line 2 - right to swarmer -->
+  <line x1="42" y1="34" x2="58" y2="38" stroke="#FCE323" stroke-width="0.7" stroke-linecap="round" opacity="0.6" stroke-dasharray="2,2"/>
+  <circle cx="58" cy="38" r="2.5" stroke="#FCE323" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+  <circle cx="58" cy="38" r="0.8" fill="#FCE323" opacity="0.6"/>
+  <!-- Tether/command line 3 - lower left to swarmer -->
+  <line x1="24" y1="38" x2="10" y2="52" stroke="#FCE323" stroke-width="0.7" stroke-linecap="round" opacity="0.6" stroke-dasharray="2,2"/>
+  <circle cx="10" cy="52" r="2.5" stroke="#FCE323" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+  <circle cx="10" cy="52" r="0.8" fill="#FCE323" opacity="0.6"/>
+  <!-- Tether/command line 4 - left to swarmer -->
+  <line x1="22" y1="30" x2="6" y2="24" stroke="#FCE323" stroke-width="0.7" stroke-linecap="round" opacity="0.6" stroke-dasharray="2,2"/>
+  <circle cx="6" cy="24" r="2.5" stroke="#FCE323" stroke-width="1" stroke-linecap="round" opacity="0.8"/>
+  <circle cx="6" cy="24" r="0.8" fill="#FCE323" opacity="0.6"/>
+</svg>

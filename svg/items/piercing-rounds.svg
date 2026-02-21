@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Projectile trail line (full path through both targets) -->
+  <line x1="6" y1="54" x2="58" y2="10" stroke="#00f0ff" stroke-width="1" stroke-linecap="round" opacity="0.4" stroke-dasharray="3 2"/>
+  <!-- First target circle (closer, bottom-left) -->
+  <circle cx="22" cy="44" r="9" stroke="#00f0ff" stroke-width="1.5" stroke-linecap="round"
+          stroke-dasharray="12 3 12 3 12 3" stroke-dashoffset="5"/>
+  <!-- First target break marks (entry) -->
+  <line x1="15" y1="49" x2="13" y2="52" stroke="#00f0ff" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+  <line x1="14" y1="48" x2="12" y2="50" stroke="#00f0ff" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+  <!-- First target break marks (exit) -->
+  <line x1="29" y1="39" x2="31" y2="36" stroke="#00f0ff" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+  <line x1="30" y1="40" x2="32" y2="37" stroke="#00f0ff" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+  <!-- Second target circle (farther, top-right) -->
+  <circle cx="42" cy="24" r="9" stroke="#00f0ff" stroke-width="1.5" stroke-linecap="round"
+          stroke-dasharray="12 3 12 3 12 3" stroke-dashoffset="5"/>
+  <!-- Second target break marks (entry) -->
+  <line x1="35" y1="29" x2="33" y2="32" stroke="#00f0ff" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+  <line x1="34" y1="28" x2="32" y2="30" stroke="#00f0ff" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+  <!-- Second target break marks (exit) -->
+  <line x1="49" y1="19" x2="51" y2="16" stroke="#00f0ff" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+  <line x1="50" y1="20" x2="52" y2="17" stroke="#00f0ff" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+  <!-- Projectile arrow head -->
+  <circle cx="56" cy="12" r="2" fill="#00f0ff" opacity="0.9"/>
+  <path d="M54 14 L58 10 L56 16" stroke="#00f0ff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Motion trail dots -->
+  <circle cx="10" cy="50" r="1" fill="#00f0ff" opacity="0.3"/>
+  <circle cx="14" cy="48" r="0.8" fill="#00f0ff" opacity="0.2"/>
+</svg>

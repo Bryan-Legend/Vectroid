@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Depth: Massive serpentine chain of connected circles coiling in a spiral -->
+  <!-- Coiling path connecting the circles -->
+  <polyline points="12,20 18,14 28,12 36,18 38,28 32,36 24,38 18,34 20,26 28,22 34,28 32,34"
+    stroke="#4CF3CC" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+  <!-- Circle 1 - Head (largest) -->
+  <circle cx="12" cy="20" r="6" stroke="#4CF3CC" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="12" cy="20" r="2" fill="#4CF3CC" opacity="0.9"/>
+  <!-- Circle 2 -->
+  <circle cx="18" cy="14" r="5" stroke="#4CF3CC" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- Circle 3 -->
+  <circle cx="28" cy="12" r="4.5" stroke="#4CF3CC" stroke-width="1.6" stroke-linecap="round"/>
+  <!-- Circle 4 -->
+  <circle cx="36" cy="18" r="4" stroke="#4CF3CC" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Circle 5 -->
+  <circle cx="38" cy="28" r="3.5" stroke="#4CF3CC" stroke-width="1.3" stroke-linecap="round"/>
+  <!-- Circle 6 -->
+  <circle cx="32" cy="36" r="3" stroke="#4CF3CC" stroke-width="1.2" stroke-linecap="round"/>
+  <!-- Circle 7 -->
+  <circle cx="24" cy="38" r="2.5" stroke="#4CF3CC" stroke-width="1" stroke-linecap="round"/>
+  <!-- Circle 8 - Tail (smallest) -->
+  <circle cx="18" cy="34" r="2" stroke="#4CF3CC" stroke-width="0.8" stroke-linecap="round"/>
+  <!-- Outer spiral suggestion lines -->
+  <path d="M6,22 Q4,32 10,42 Q18,50 30,48 Q44,44 50,32 Q54,18 46,8 Q38,2 26,4"
+    stroke="#4CF3CC" stroke-width="0.5" stroke-linecap="round" opacity="0.25"/>
+  <!-- Inner coil detail on head -->
+  <circle cx="12" cy="20" r="4" stroke="#4CF3CC" stroke-width="0.6" opacity="0.5"/>
+  <!-- Eye glow -->
+  <circle cx="12" cy="20" r="1" fill="#FFFFFF" opacity="0.8"/>
+</svg>

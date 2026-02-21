@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Thick horizontal gate bar -->
+  <rect x="4" y="24" width="56" height="10" stroke="#707070" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Triangular teeth along bottom edge (portcullis) -->
+  <polygon points="8,34 12,42 4,42" stroke="#707070" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="18,34 22,42 14,42" stroke="#707070" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="28,34 32,42 24,42" stroke="#707070" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="38,34 42,42 34,42" stroke="#707070" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="48,34 52,42 44,42" stroke="#707070" stroke-width="1.2" stroke-linejoin="round"/>
+  <polygon points="56,34 60,42 52,42" stroke="#707070" stroke-width="1.2" stroke-linejoin="round"/>
+  <!-- Lock circle at center of bar -->
+  <circle cx="32" cy="29" r="4" stroke="#707070" stroke-width="1.5"/>
+  <!-- Keyhole -->
+  <circle cx="32" cy="28" r="1.2" fill="#707070"/>
+  <rect x="31.2" y="28.5" width="1.6" height="3" fill="#707070"/>
+  <!-- Mounting brackets -->
+  <line x1="4" y1="22" x2="4" y2="20" stroke="#707070" stroke-width="2" stroke-linecap="round"/>
+  <line x1="60" y1="22" x2="60" y2="20" stroke="#707070" stroke-width="2" stroke-linecap="round"/>
+</svg>

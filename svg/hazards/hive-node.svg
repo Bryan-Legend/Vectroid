@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Large hexagon with double outline (indestructible feel) -->
+  <polygon points="32,8 52,18 52,46 32,56 12,46 12,18" stroke="#F59F0A" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="32,12 48,20 48,44 32,52 16,44 16,20" stroke="#F59F0A" stroke-width="1" stroke-linejoin="round" opacity="0.5"/>
+  <!-- Radiating burst pattern at center -->
+  <circle cx="32" cy="32" r="3" fill="#F59F0A" opacity="0.6"/>
+  <line x1="32" y1="26" x2="32" y2="22" stroke="#F59F0A" stroke-width="1" stroke-linecap="round"/>
+  <line x1="37" y1="29" x2="40" y2="26" stroke="#F59F0A" stroke-width="1" stroke-linecap="round"/>
+  <line x1="37" y1="35" x2="40" y2="38" stroke="#F59F0A" stroke-width="1" stroke-linecap="round"/>
+  <line x1="32" y1="38" x2="32" y2="42" stroke="#F59F0A" stroke-width="1" stroke-linecap="round"/>
+  <line x1="27" y1="35" x2="24" y2="38" stroke="#F59F0A" stroke-width="1" stroke-linecap="round"/>
+  <line x1="27" y1="29" x2="24" y2="26" stroke="#F59F0A" stroke-width="1" stroke-linecap="round"/>
+  <!-- Tiny triangles emerging from edges -->
+  <polygon points="52,32 58,30 58,34" fill="#F59F0A" opacity="0.6"/>
+  <polygon points="42,10 46,6 44,10" fill="#F59F0A" opacity="0.5"/>
+  <polygon points="42,54 46,58 44,54" fill="#F59F0A" opacity="0.5"/>
+</svg>

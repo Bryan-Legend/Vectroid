@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Large irregular polygon (asteroid 1) -->
+  <polygon points="18,12 28,10 32,16 30,24 22,26 14,22 12,16" stroke="#888888" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Medium irregular polygon (asteroid 2) -->
+  <polygon points="38,30 48,28 54,34 52,42 44,46 36,42 34,36" stroke="#888888" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Small irregular polygon (asteroid 3) -->
+  <polygon points="14,40 20,38 24,42 22,48 16,50 12,46" stroke="#888888" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Small fragment triangles -->
+  <polygon points="36,14 40,12 38,16" stroke="#888888" stroke-width="1" stroke-linejoin="round" opacity="0.6"/>
+  <polygon points="28,34 32,32 30,36" stroke="#888888" stroke-width="1" stroke-linejoin="round" opacity="0.5"/>
+  <polygon points="52,20 56,18 54,22" stroke="#888888" stroke-width="1" stroke-linejoin="round" opacity="0.55"/>
+  <polygon points="8,34 12,32 10,36" stroke="#888888" stroke-width="1" stroke-linejoin="round" opacity="0.5"/>
+  <polygon points="42,52 46,50 44,54" stroke="#888888" stroke-width="1" stroke-linejoin="round" opacity="0.45"/>
+  <!-- Surface detail lines on larger asteroids -->
+  <line x1="20" y1="16" x2="26" y2="18" stroke="#888888" stroke-width="0.6" stroke-linecap="round" opacity="0.4"/>
+  <line x1="42" y1="34" x2="48" y2="38" stroke="#888888" stroke-width="0.6" stroke-linecap="round" opacity="0.4"/>
+</svg>

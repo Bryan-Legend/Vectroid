@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Long thin isoceles triangle (needle) pointing right -->
+  <polygon points="42,32 14,24 18,32 14,40" stroke="#0080FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Thin laser sight line extending from tip -->
+  <line x1="42" y1="32" x2="56" y2="32" stroke="#0080FF" stroke-width="0.8" stroke-linecap="round" opacity="0.6"/>
+  <!-- Crosshair circle at end of laser -->
+  <circle cx="58" cy="32" r="4" stroke="#0080FF" stroke-width="1" fill="none" opacity="0.7"/>
+  <!-- Crosshair inner lines -->
+  <line x1="58" y1="27" x2="58" y2="29" stroke="#0080FF" stroke-width="0.8" stroke-linecap="round" opacity="0.7"/>
+  <line x1="58" y1="35" x2="58" y2="37" stroke="#0080FF" stroke-width="0.8" stroke-linecap="round" opacity="0.7"/>
+  <line x1="53" y1="32" x2="55" y2="32" stroke="#0080FF" stroke-width="0.8" stroke-linecap="round" opacity="0.7"/>
+  <!-- Scope detail on body -->
+  <circle cx="24" cy="32" r="2.5" stroke="#0080FF" stroke-width="1" fill="none"/>
+</svg>

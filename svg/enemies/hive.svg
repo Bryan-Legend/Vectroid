@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Central hexagon -->
+  <polygon points="32,22 40,26 40,34 32,38 24,34 24,26" stroke="#9ACD32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Top hexagon -->
+  <polygon points="32,10 40,14 40,22 32,26 24,22 24,14" stroke="#9ACD32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Top-right hexagon -->
+  <polygon points="44,18 52,22 52,30 44,34 36,30 36,22" stroke="#9ACD32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+  <!-- Top-left hexagon -->
+  <polygon points="20,18 28,22 28,30 20,34 12,30 12,22" stroke="#9ACD32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+  <!-- Bottom hexagon -->
+  <polygon points="32,34 40,38 40,46 32,50 24,46 24,38" stroke="#9ACD32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Bottom-right hexagon -->
+  <polygon points="44,30 52,34 52,42 44,46 36,42 36,34" stroke="#9ACD32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+  <!-- Bottom-left hexagon -->
+  <polygon points="20,30 28,34 28,42 20,46 12,42 12,34" stroke="#9ACD32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+  <!-- Small swarmer triangles emerging -->
+  <polygon points="52,42 58,46 52,48" stroke="#9ACD32" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.6"/>
+  <polygon points="32,52 36,58 28,58" stroke="#9ACD32" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.5"/>
+</svg>

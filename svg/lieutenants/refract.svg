@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Refract: Crystal prism at center with beams entering left and refracting out right -->
+  <!-- Incoming beams (from left) -->
+  <line x1="4" y1="24" x2="24" y2="28" stroke="#4A71CC" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+  <line x1="4" y1="32" x2="24" y2="32" stroke="#4A71CC" stroke-width="1.2" stroke-linecap="round" opacity="0.8"/>
+  <line x1="4" y1="40" x2="24" y2="36" stroke="#4A71CC" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+  <!-- Crystal/Prism body (elongated hexagon) -->
+  <polygon points="24,22 40,22 44,32 40,42 24,42 20,32"
+    stroke="#4A71CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Internal facet lines -->
+  <line x1="28" y1="22" x2="24" y2="42" stroke="#4A71CC" stroke-width="0.6" stroke-linecap="round" opacity="0.4"/>
+  <line x1="36" y1="22" x2="40" y2="42" stroke="#4A71CC" stroke-width="0.6" stroke-linecap="round" opacity="0.4"/>
+  <line x1="24" y1="32" x2="44" y2="32" stroke="#4A71CC" stroke-width="0.5" stroke-linecap="round" opacity="0.3"/>
+  <!-- Refracted beams (splitting out right at different angles) -->
+  <line x1="44" y1="32" x2="60" y2="16" stroke="#4A71CC" stroke-width="1" stroke-linecap="round" opacity="0.9"/>
+  <line x1="44" y1="32" x2="60" y2="28" stroke="#4A71CC" stroke-width="1.2" stroke-linecap="round" opacity="0.85"/>
+  <line x1="44" y1="32" x2="60" y2="38" stroke="#4A71CC" stroke-width="1.1" stroke-linecap="round" opacity="0.8"/>
+  <line x1="44" y1="32" x2="58" y2="48" stroke="#4A71CC" stroke-width="0.9" stroke-linecap="round" opacity="0.7"/>
+  <line x1="44" y1="32" x2="54" y2="54" stroke="#4A71CC" stroke-width="0.7" stroke-linecap="round" opacity="0.5"/>
+  <!-- Light scatter dots at refraction points -->
+  <circle cx="44" cy="32" r="1.5" fill="#4A71CC" opacity="0.5"/>
+  <circle cx="24" cy="28" r="0.8" fill="#4A71CC" opacity="0.3"/>
+  <circle cx="24" cy="32" r="0.8" fill="#4A71CC" opacity="0.4"/>
+  <circle cx="24" cy="36" r="0.8" fill="#4A71CC" opacity="0.3"/>
+</svg>

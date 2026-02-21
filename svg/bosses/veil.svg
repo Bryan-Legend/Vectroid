@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Veil: Shifting polyhedron — overlapping triangle, square, pentagon at different rotations -->
+  <!-- Pentagon (lowest opacity, largest) rotated ~15 degrees -->
+  <g transform="translate(32,32) rotate(15)" opacity="0.3">
+    <polygon points="0,-18 17.1,-5.6 10.6,14.6 -10.6,14.6 -17.1,-5.6"
+      stroke="#4A71CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <!-- Square (medium opacity) rotated ~-20 degrees -->
+  <g transform="translate(32,32) rotate(-20)" opacity="0.6">
+    <rect x="-13" y="-13" width="26" height="26"
+      stroke="#4A71CC" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <!-- Triangle (highest opacity, foreground) rotated ~10 degrees -->
+  <g transform="translate(32,32) rotate(10)" opacity="0.9">
+    <polygon points="0,-16 13.9,8 -13.9,8"
+      stroke="#4A71CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <!-- Inner shifting hexagon for extra instability -->
+  <g transform="translate(32,32) rotate(35)" opacity="0.45">
+    <polygon points="0,-9 7.8,-4.5 7.8,4.5 0,9 -7.8,4.5 -7.8,-4.5"
+      stroke="#4A71CC" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <!-- Central instability dot -->
+  <circle cx="32" cy="32" r="2" stroke="#4A71CC" stroke-width="1.5" opacity="0.8"/>
+  <circle cx="32" cy="32" r="0.8" fill="#4A71CC" opacity="0.7"/>
+  <!-- Ghost edges suggesting phase-shift -->
+  <line x1="18" y1="12" x2="14" y2="8" stroke="#4A71CC" stroke-width="0.5" opacity="0.2" stroke-linecap="round"/>
+  <line x1="46" y1="14" x2="50" y2="10" stroke="#4A71CC" stroke-width="0.5" opacity="0.2" stroke-linecap="round"/>
+  <line x1="44" y1="50" x2="48" y2="54" stroke="#4A71CC" stroke-width="0.5" opacity="0.2" stroke-linecap="round"/>
+  <line x1="18" y1="48" x2="14" y2="52" stroke="#4A71CC" stroke-width="0.5" opacity="0.2" stroke-linecap="round"/>
+</svg>

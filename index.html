@@ -1,0 +1,2302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VECTROID — Game Design Document</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Exo+2:wght@200;300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --void: #050510;
+  --void-light: #0a0a1a;
+  --grid-line: rgba(255,255,255,0.03);
+  --grid-line-bright: rgba(255,255,255,0.07);
+  --text-dim: rgba(255,255,255,0.4);
+  --text-mid: rgba(255,255,255,0.65);
+  --text-bright: rgba(255,255,255,0.9);
+  --accent: #00f0ff;
+  --accent-dim: rgba(0,240,255,0.15);
+
+  /* Zone colors */
+  --cyan-primary: #4CF3CC;
+  --cyan-secondary: #3EA4BD;
+  --cyan-bg: #0A225C;
+  --blue-primary: #4A71CC;
+  --blue-secondary: #881A78;
+  --blue-bg: #322F5A;
+  --grey-primary: #D4D4D4;
+  --grey-secondary: #707070;
+  --grey-bg: #0F0F0F;
+  --red-primary: #F81C1F;
+  --red-secondary: #E9A724;
+  --red-bg: #440007;
+  --purple-primary: #9F0E7F;
+  --purple-secondary: #FCC7FE;
+  --purple-bg: #0A0105;
+  --yellow-primary: #FCE323;
+  --yellow-secondary: #F59F0A;
+  --yellow-bg: #703203;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.15) transparent;
+}
+
+body {
+  background: var(--void);
+  color: var(--text-bright);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* === GRID BACKGROUND === */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(0deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes gridPulse {
+  0% { opacity: 0.4; }
+  100% { opacity: 0.8; }
+}
+
+.scanline {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+}
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%);
+  pointer-events: none;
+}
+
+/* === STARFIELD === */
+.starfield {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle var(--dur) ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  0% { opacity: 0.1; }
+  100% { opacity: var(--max-o, 0.6); }
+}
+
+/* === NAV === */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0 40px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  background: linear-gradient(180deg, rgba(5,5,16,0.95) 0%, rgba(5,5,16,0.7) 80%, transparent 100%);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: border-color 0.5s;
+}
+
+nav.scrolled {
+  border-bottom-color: rgba(0,240,255,0.15);
+}
+
+.nav-logo {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 16px;
+  letter-spacing: 4px;
+  color: var(--accent);
+  text-shadow: 0 0 20px rgba(0,240,255,0.4);
+  flex-shrink: 0;
+}
+
+.nav-links {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.nav-links::-webkit-scrollbar { display: none; }
+
+.nav-link {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-decoration: none;
+  padding: 6px 14px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  white-space: nowrap;
+  transition: all 0.3s;
+}
+
+.nav-link:hover {
+  color: var(--text-bright);
+  border-color: rgba(255,255,255,0.1);
+}
+
+.nav-link.active {
+  color: var(--accent);
+  border-color: rgba(0,240,255,0.25);
+  background: rgba(0,240,255,0.05);
+}
+
+/* === HERO === */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 40px;
+}
+
+.hero-title {
+  font-family: 'Audiowide', sans-serif;
+  font-size: clamp(48px, 10vw, 120px);
+  letter-spacing: 0.3em;
+  text-align: center;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--accent);
+  text-shadow: 0 0 60px rgba(0,240,255,0.2);
+  animation: titleGlow 4s ease-in-out infinite alternate;
+  position: relative;
+}
+
+@keyframes titleGlow {
+  0% { text-shadow: 0 0 40px rgba(0,240,255,0.1), 0 0 80px rgba(0,240,255,0.05); }
+  100% { text-shadow: 0 0 60px rgba(0,240,255,0.25), 0 0 120px rgba(0,240,255,0.1); }
+}
+
+.hero-sub {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 200;
+  font-size: clamp(12px, 2vw, 18px);
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 24px;
+  text-align: center;
+}
+
+.hero-tagline {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 300;
+  font-size: clamp(14px, 1.8vw, 20px);
+  color: var(--text-mid);
+  margin-top: 48px;
+  max-width: 600px;
+  text-align: center;
+  line-height: 1.8;
+}
+
+.hero-line {
+  width: 1px;
+  height: 80px;
+  background: linear-gradient(180deg, var(--accent), transparent);
+  margin-top: 60px;
+  animation: linePulse 2s ease-in-out infinite;
+}
+
+@keyframes linePulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.hero-scroll {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 16px;
+  animation: fadeInUp 1s ease-out 1.5s both;
+}
+
+/* === SHIP SVG === */
+.hero-ship {
+  position: absolute;
+  top: 15%;
+  opacity: 0.06;
+  animation: shipFloat 12s ease-in-out infinite;
+}
+
+@keyframes shipFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-15px) rotate(0.5deg); }
+  75% { transform: translateY(10px) rotate(-0.3deg); }
+}
+
+/* === SECTIONS === */
+section {
+  padding: 120px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.section-label {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.6;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-family: 'Audiowide', sans-serif;
+  font-size: clamp(28px, 4vw, 48px);
+  letter-spacing: 0.1em;
+  color: var(--text-bright);
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 1px;
+  background: var(--accent);
+  margin-top: 20px;
+  box-shadow: 0 0 10px rgba(0,240,255,0.3);
+}
+
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  margin: 0 auto;
+}
+
+/* === PREMISE === */
+.premise-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.premise-text {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--text-mid);
+}
+
+.premise-text strong {
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.premise-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.stat-card {
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+  padding: 24px;
+  background: rgba(255,255,255,0.01);
+  transition: all 0.4s;
+}
+
+.stat-card:hover {
+  border-color: rgba(0,240,255,0.2);
+  background: rgba(0,240,255,0.02);
+  transform: translateY(-2px);
+}
+
+.stat-value {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 32px;
+  color: var(--accent);
+  text-shadow: 0 0 20px rgba(0,240,255,0.2);
+}
+
+.stat-label {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 8px;
+}
+
+/* === ABILITIES === */
+.abilities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.ability-card {
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+  padding: 32px;
+  background: rgba(255,255,255,0.01);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s;
+  cursor: default;
+}
+
+.ability-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--card-accent, var(--accent));
+  opacity: 0;
+  transition: opacity 0.4s;
+  box-shadow: 0 0 20px var(--card-accent, var(--accent));
+}
+
+.ability-card:hover {
+  border-color: rgba(255,255,255,0.1);
+  transform: translateY(-4px);
+}
+
+.ability-card:hover::before {
+  opacity: 1;
+}
+
+.ability-icon {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--card-accent, var(--accent));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: var(--card-accent, var(--accent));
+  font-size: 16px;
+  box-shadow: 0 0 15px rgba(0,240,255,0.1);
+}
+
+.ability-name {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--text-bright);
+  margin-bottom: 4px;
+}
+
+.ability-source {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--card-accent, var(--accent));
+  opacity: 0.7;
+  margin-bottom: 16px;
+}
+
+.ability-desc {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-dim);
+}
+
+/* === ZONES === */
+.zones-intro {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--text-mid);
+  max-width: 700px;
+  margin-bottom: 60px;
+}
+
+.zone-section {
+  margin-bottom: 100px;
+  position: relative;
+  padding: 60px;
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 8px;
+  background: rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+
+.zone-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 20% 50%, var(--zone-glow), transparent 70%);
+}
+
+.zone-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--zone-primary), transparent);
+  opacity: 0.6;
+}
+
+.zone-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.zone-color-strip {
+  width: 4px;
+  min-height: 120px;
+  border-radius: 2px;
+  background: var(--zone-primary);
+  box-shadow: 0 0 20px var(--zone-primary);
+  flex-shrink: 0;
+}
+
+.zone-header-content {
+  flex: 1;
+}
+
+.zone-name {
+  font-family: 'Audiowide', sans-serif;
+  font-size: clamp(24px, 3vw, 40px);
+  letter-spacing: 0.15em;
+  color: var(--zone-primary);
+  text-shadow: 0 0 30px color-mix(in srgb, var(--zone-primary) 30%, transparent);
+}
+
+.zone-subtitle {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 200;
+  font-size: 14px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 8px;
+}
+
+.zone-identity {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--text-mid);
+  margin-top: 16px;
+  max-width: 600px;
+}
+
+.zone-palette {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.zone-swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.1);
+  position: relative;
+  cursor: default;
+  transition: transform 0.2s;
+}
+
+.zone-swatch:hover {
+  transform: scale(1.2);
+}
+
+.zone-swatch::after {
+  content: attr(data-hex);
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.zone-swatch:hover::after {
+  opacity: 1;
+}
+
+.zone-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 20px;
+}
+
+.zone-detail-group h4 {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--zone-primary);
+  opacity: 0.7;
+  margin-bottom: 12px;
+}
+
+.zone-detail-group p,
+.zone-detail-group li {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--text-dim);
+}
+
+.zone-detail-group ul {
+  list-style: none;
+  padding: 0;
+}
+
+.zone-detail-group li {
+  padding-left: 16px;
+  position: relative;
+}
+
+.zone-detail-group li::before {
+  content: '>';
+  position: absolute;
+  left: 0;
+  color: var(--zone-primary);
+  opacity: 0.5;
+}
+
+.zone-boss-card {
+  grid-column: 1 / -1;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+  padding: 32px;
+  background: rgba(0,0,0,0.3);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.boss-visual {
+  width: 80px;
+  height: 80px;
+  border: 1px solid var(--zone-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.boss-visual::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border: 1px solid var(--zone-primary);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: bossRing 3s linear infinite;
+}
+
+@keyframes bossRing {
+  0% { transform: rotate(0deg) scale(1); opacity: 0.3; }
+  50% { opacity: 0.6; }
+  100% { transform: rotate(360deg) scale(1); opacity: 0.3; }
+}
+
+.boss-visual svg,
+.boss-visual img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.boss-name {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 18px;
+  letter-spacing: 4px;
+  color: var(--zone-primary);
+  text-shadow: 0 0 20px color-mix(in srgb, var(--zone-primary) 25%, transparent);
+}
+
+.boss-type {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+.boss-phases {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.boss-phase {
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.phase-label {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--zone-primary);
+  opacity: 0.8;
+  padding-top: 2px;
+}
+
+.phase-desc {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-dim);
+}
+
+/* === ENEMIES === */
+.enemies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.enemy-card {
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 4px;
+  padding: 24px;
+  background: rgba(255,255,255,0.01);
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.enemy-card:hover {
+  border-color: rgba(255,255,255,0.08);
+  transform: translateY(-2px);
+}
+
+.enemy-card::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--enemy-color);
+  box-shadow: 0 0 8px var(--enemy-color);
+  opacity: 0.8;
+}
+
+.enemy-name {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--text-bright);
+  margin-bottom: 12px;
+}
+
+.enemy-stats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.enemy-stat {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.enemy-stat span {
+  color: var(--text-mid);
+}
+
+.enemy-desc {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text-dim);
+}
+
+.enemy-health-bar {
+  width: 100%;
+  height: 2px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 1px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+
+.enemy-health-fill {
+  height: 100%;
+  background: var(--enemy-color);
+  border-radius: 1px;
+  opacity: 0.6;
+}
+
+/* === HAZARDS === */
+.hazards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.hazard-card {
+  border: 1px solid rgba(255,255,255,0.04);
+  border-left: 2px solid var(--hazard-color, #ff6600);
+  border-radius: 0 4px 4px 0;
+  padding: 24px;
+  background: rgba(255,255,255,0.01);
+  transition: all 0.4s;
+}
+
+.hazard-card:hover {
+  border-color: rgba(255,255,255,0.08);
+  border-left-color: var(--hazard-color, #ff6600);
+  background: rgba(255,255,255,0.02);
+}
+
+.hazard-name {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--text-bright);
+  margin-bottom: 8px;
+}
+
+.hazard-desc {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text-dim);
+}
+
+/* === PROGRESSION === */
+.progression-flow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  justify-content: center;
+  margin: 40px 0;
+  flex-wrap: wrap;
+}
+
+.prog-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.prog-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--node-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Audiowide', sans-serif;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--node-color);
+  box-shadow: 0 0 15px color-mix(in srgb, var(--node-color) 20%, transparent);
+  transition: all 0.3s;
+}
+
+.prog-circle:hover {
+  background: color-mix(in srgb, var(--node-color) 10%, transparent);
+  box-shadow: 0 0 25px color-mix(in srgb, var(--node-color) 30%, transparent);
+}
+
+.prog-label {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.prog-arrow {
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--arrow-from, var(--text-dim)), var(--arrow-to, var(--text-dim)));
+  position: relative;
+  margin: 0 4px;
+  margin-bottom: 18px;
+}
+
+.prog-arrow::after {
+  content: '';
+  position: absolute;
+  right: -3px;
+  top: -3px;
+  width: 7px;
+  height: 7px;
+  border-right: 1px solid var(--arrow-to, var(--text-dim));
+  border-top: 1px solid var(--arrow-to, var(--text-dim));
+  transform: rotate(45deg);
+}
+
+/* === WEAPON LEVELS === */
+.weapon-levels {
+  display: flex;
+  gap: 20px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.weapon-level {
+  flex: 1;
+  min-width: 140px;
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 4px;
+  padding: 20px;
+  text-align: center;
+  background: rgba(255,255,255,0.01);
+  transition: all 0.3s;
+}
+
+.weapon-level:hover {
+  border-color: rgba(0,240,255,0.15);
+}
+
+.weapon-level-num {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 24px;
+  color: var(--accent);
+  text-shadow: 0 0 15px rgba(0,240,255,0.2);
+}
+
+.weapon-level-name {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 8px;
+}
+
+.weapon-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.weapon-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 6px rgba(0,240,255,0.4);
+}
+
+/* === ENTITY SVG === */
+.enemy-svg {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.enemy-svg svg,
+.enemy-svg img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 6px var(--enemy-color));
+  transition: filter 0.3s, transform 0.3s;
+}
+
+.enemy-card:hover .enemy-svg svg {
+  filter: drop-shadow(0 0 12px var(--enemy-color));
+  transform: scale(1.08);
+}
+
+.hazard-svg {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.hazard-svg svg,
+.hazard-svg img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  opacity: 0.8;
+  filter: drop-shadow(0 0 4px var(--hazard-color));
+  transition: filter 0.3s;
+}
+
+.hazard-card:hover .hazard-svg svg {
+  filter: drop-shadow(0 0 10px var(--hazard-color));
+}
+
+/* === LIEUTENANTS === */
+.lt-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.lt-card {
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+  padding: 32px;
+  background: rgba(255,255,255,0.01);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s;
+  cursor: default;
+}
+
+.lt-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--lt-color);
+  opacity: 0;
+  transition: opacity 0.4s;
+  box-shadow: 0 0 20px var(--lt-color);
+}
+
+.lt-card:hover {
+  border-color: rgba(255,255,255,0.1);
+  transform: translateY(-4px);
+}
+
+.lt-card:hover::before { opacity: 1; }
+
+.lt-svg {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.lt-svg svg,
+.lt-svg img {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 8px var(--lt-color));
+  transition: filter 0.3s, transform 0.3s;
+}
+
+.lt-card:hover .lt-svg svg {
+  filter: drop-shadow(0 0 16px var(--lt-color));
+  transform: scale(1.06);
+}
+
+.lt-name {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--lt-color);
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.lt-role {
+  font-family: 'Exo 2', sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.lt-desc {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-dim);
+}
+
+/* === ITEMS === */
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.item-card {
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+  padding: 28px;
+  background: rgba(255,255,255,0.01);
+  text-align: center;
+  transition: all 0.4s;
+  cursor: default;
+}
+
+.item-card:hover {
+  border-color: rgba(0,240,255,0.15);
+  transform: translateY(-3px);
+  background: rgba(0,240,255,0.02);
+}
+
+.item-svg {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.item-svg svg,
+.item-svg img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 6px var(--accent));
+  transition: filter 0.3s, transform 0.3s;
+}
+
+.item-card:hover .item-svg svg {
+  filter: drop-shadow(0 0 14px var(--accent));
+  transform: scale(1.1);
+}
+
+.item-name {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--text-bright);
+  margin-bottom: 8px;
+}
+
+.item-desc {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--text-dim);
+}
+
+/* === FOOTER === */
+footer {
+  padding: 80px 40px;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+
+.footer-title {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 24px;
+  letter-spacing: 0.3em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(0,240,255,0.3);
+}
+
+.footer-sub {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 200;
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 12px;
+}
+
+/* === ANIMATIONS === */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+  .premise-grid { grid-template-columns: 1fr; }
+  .abilities-grid { grid-template-columns: 1fr 1fr; }
+  .lt-grid { grid-template-columns: 1fr 1fr; }
+  .items-grid { grid-template-columns: 1fr 1fr; }
+  .zone-details { grid-template-columns: 1fr; }
+  .zone-boss-card { grid-template-columns: 1fr; }
+  .zone-section { padding: 32px; }
+  section { padding: 80px 20px; }
+  nav { padding: 0 16px; gap: 16px; }
+}
+
+@media (max-width: 600px) {
+  .abilities-grid { grid-template-columns: 1fr; }
+  .lt-grid { grid-template-columns: 1fr; }
+  .items-grid { grid-template-columns: 1fr 1fr; }
+  .premise-stats { grid-template-columns: 1fr; }
+  .progression-flow { flex-direction: column; }
+  .prog-arrow { width: 1px; height: 24px; margin: 4px 0; }
+  .prog-arrow::after {
+    right: -3px; top: auto; bottom: -3px;
+    transform: rotate(135deg);
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="scanline"></div>
+<div class="vignette"></div>
+<div class="starfield" id="starfield"></div>
+
+<nav id="nav">
+  <div class="nav-logo">VECTROID</div>
+  <div class="nav-links">
+    <a href="#premise" class="nav-link">Premise</a>
+    <a href="#player" class="nav-link">Player</a>
+    <a href="#abilities" class="nav-link">Abilities</a>
+    <a href="#progression" class="nav-link">Progression</a>
+    <a href="#zones" class="nav-link">Zones</a>
+    <a href="#lieutenants" class="nav-link">Lieutenants</a>
+    <a href="#enemies" class="nav-link">Enemies</a>
+    <a href="#hazards" class="nav-link">Hazards</a>
+    <a href="#items" class="nav-link">Items</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <svg class="hero-ship" width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="100,20 160,160 100,130 40,160" stroke="rgba(0,240,255,0.3)" stroke-width="1" fill="none"/>
+    <circle cx="100" cy="100" r="8" stroke="rgba(0,240,255,0.2)" stroke-width="1" fill="rgba(0,240,255,0.05)"/>
+  </svg>
+  <div class="hero-title">VECTROID</div>
+  <div class="hero-sub">A Combat Progress Adventure</div>
+  <div class="hero-tagline">
+    A top-down twin-stick shooter with vector graphics.
+    Exploration. Bullet hell. Metroidvania progression.
+    <br><strong style="color: var(--accent); font-weight: 400;">Tron meets Metroid.</strong>
+  </div>
+  <div class="hero-line"></div>
+  <div class="hero-scroll">Scroll to explore</div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- PREMISE -->
+<section id="premise">
+  <div class="section-label fade-in">01 / Premise</div>
+  <div class="section-title fade-in">The Grid</div>
+  <div class="premise-grid">
+    <div class="premise-text fade-in">
+      <strong>The Grid</strong> — a vast digital frontier divided into six territories, each controlled by a rival program. What was once a unified system has fractured into warring sectors.
+      <br><br>
+      You are <strong>Vex</strong> — a program reactivated in dead memory with no identity and no allegiance. The Grid's six territories are sealed behind the abilities of their rulers.
+      <br><br>
+      To survive you must defeat each ruler and claim their power. Each ability unlocks new traversal options, opening paths deeper into the Grid and revealing secrets in previously explored zones.
+      <br><br>
+      Your goal: reach the Grid's origin and discover what fractured the system.
+    </div>
+    <div class="premise-stats fade-in">
+      <div class="stat-card">
+        <div class="stat-value">6</div>
+        <div class="stat-label">Zones</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">6</div>
+        <div class="stat-label">Boss Abilities</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">18</div>
+        <div class="stat-label">Enemy Types</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">14</div>
+        <div class="stat-label">Max Hearts</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- PLAYER -->
+<section id="player">
+  <div class="section-label fade-in">02 / Player</div>
+  <div class="section-title fade-in">Vex</div>
+  <div class="premise-text fade-in" style="max-width: 700px; margin-bottom: 40px;">
+    Angular chevron shape with a bright core. White outline. Full twin-stick control — left stick moves, right stick aims and fires. Base health of 5 heart containers expandable to 14 via fragments. Energy powers abilities and replenishes over time. Short invincibility dash on cooldown.
+  </div>
+
+  <h3 class="section-label fade-in" style="margin-top: 48px;">Weapon Levels</h3>
+  <div class="weapon-levels fade-in">
+    <div class="weapon-level">
+      <div class="weapon-level-num">1</div>
+      <div class="weapon-level-name">Single Shot</div>
+      <div class="weapon-dots"><div class="weapon-dot"></div></div>
+    </div>
+    <div class="weapon-level">
+      <div class="weapon-level-num">2</div>
+      <div class="weapon-level-name">Dual Shot</div>
+      <div class="weapon-dots"><div class="weapon-dot"></div><div class="weapon-dot"></div></div>
+    </div>
+    <div class="weapon-level">
+      <div class="weapon-level-num">3</div>
+      <div class="weapon-level-name">Triangle</div>
+      <div class="weapon-dots"><div class="weapon-dot"></div><div class="weapon-dot"></div><div class="weapon-dot"></div></div>
+    </div>
+    <div class="weapon-level">
+      <div class="weapon-level-num">4</div>
+      <div class="weapon-level-name">Diamond</div>
+      <div class="weapon-dots"><div class="weapon-dot"></div><div class="weapon-dot"></div><div class="weapon-dot"></div><div class="weapon-dot"></div></div>
+    </div>
+    <div class="weapon-level">
+      <div class="weapon-level-num">5</div>
+      <div class="weapon-level-name">Diamond+</div>
+      <div class="weapon-dots"><div class="weapon-dot"></div><div class="weapon-dot"></div><div class="weapon-dot"></div><div class="weapon-dot"></div><div class="weapon-dot"></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ABILITIES -->
+<section id="abilities">
+  <div class="section-label fade-in">03 / Abilities</div>
+  <div class="section-title fade-in">Boss Powers</div>
+  <div class="abilities-grid">
+    <div class="ability-card fade-in" style="--card-accent: var(--cyan-primary);">
+      <div class="ability-icon" style="border-color: var(--cyan-primary); color: var(--cyan-primary);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7" opacity="0.5"/><circle cx="12" cy="12" r="10" opacity="0.25"/></svg>
+      </div>
+      <div class="ability-name">Sonar Pulse</div>
+      <div class="ability-source" style="color: var(--cyan-primary);">From DEPTH</div>
+      <div class="ability-desc">Radial ping that reveals cloaked enemies, hidden paths, and sonar-gated secrets. Short cooldown.</div>
+    </div>
+    <div class="ability-card fade-in" style="--card-accent: var(--blue-primary);">
+      <div class="ability-icon" style="border-color: var(--blue-primary); color: var(--blue-primary);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h4l2-8 4 16 2-8h4"/></svg>
+      </div>
+      <div class="ability-name">Phase Shift</div>
+      <div class="ability-source" style="color: var(--blue-primary);">From VEIL</div>
+      <div class="ability-desc">Teleport a short distance in the aim direction. Passes through walls, gaps, and barriers.</div>
+    </div>
+    <div class="ability-card fade-in" style="--card-accent: var(--grey-primary);">
+      <div class="ability-icon" style="border-color: var(--grey-primary); color: var(--grey-primary);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </div>
+      <div class="ability-name">Overclock</div>
+      <div class="ability-source" style="color: var(--grey-primary);">From NULL</div>
+      <div class="ability-desc">Doubles fire rate and movement speed. Drains energy while active. Required for timed security gates.</div>
+    </div>
+    <div class="ability-card fade-in" style="--card-accent: var(--red-primary);">
+      <div class="ability-icon" style="border-color: var(--red-primary); color: var(--red-primary);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="2"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+      </div>
+      <div class="ability-name">Burst Fire</div>
+      <div class="ability-source" style="color: var(--red-primary);">From FORGE</div>
+      <div class="ability-desc">Concentrated three-round burst. Destroys reinforced barriers.</div>
+    </div>
+    <div class="ability-card fade-in" style="--card-accent: var(--purple-primary);">
+      <div class="ability-icon" style="border-color: var(--purple-primary); color: var(--purple-primary);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2c-4 4-4 8-2 10s2 6-2 10"/><path d="M12 2c4 4 4 8 2 10s-2 6 2 10" opacity="0.5"/></svg>
+      </div>
+      <div class="ability-name">Leech Drain</div>
+      <div class="ability-source" style="color: var(--purple-primary);">From MIRE</div>
+      <div class="ability-desc">Kills restore health. Traverse corrupted terrain without damage.</div>
+    </div>
+    <div class="ability-card fade-in" style="--card-accent: var(--yellow-primary);">
+      <div class="ability-icon" style="border-color: var(--yellow-primary); color: var(--yellow-primary);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5l-3 7h6l-3 7"/><path d="M8 5l-3 7h6l-3 7" opacity="0.5"/><path d="M16 5l-3 7h6l-3 7" opacity="0.5"/></svg>
+      </div>
+      <div class="ability-name">Scatter Shot</div>
+      <div class="ability-source" style="color: var(--yellow-primary);">From SWARM</div>
+      <div class="ability-desc">Wide spread of projectiles. Clears dense swarm gates and handles large groups.</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- PROGRESSION -->
+<section id="progression">
+  <div class="section-label fade-in">04 / Progression</div>
+  <div class="section-title fade-in">Suggested Path</div>
+  <div class="progression-flow fade-in">
+    <div class="prog-node" style="--node-color: var(--cyan-primary);">
+      <div class="prog-circle">CYN</div>
+      <div class="prog-label">The Deep</div>
+    </div>
+    <div class="prog-arrow" style="--arrow-from: var(--cyan-primary); --arrow-to: var(--blue-primary);"></div>
+    <div class="prog-node" style="--node-color: var(--blue-primary);">
+      <div class="prog-circle">BLU</div>
+      <div class="prog-label">The Veil</div>
+    </div>
+    <div class="prog-arrow" style="--arrow-from: var(--blue-primary); --arrow-to: var(--grey-primary);"></div>
+    <div class="prog-node" style="--node-color: var(--grey-primary);">
+      <div class="prog-circle">GRY</div>
+      <div class="prog-label">The Null</div>
+    </div>
+    <div class="prog-arrow" style="--arrow-from: var(--grey-primary); --arrow-to: var(--red-primary);"></div>
+    <div class="prog-node" style="--node-color: var(--red-primary);">
+      <div class="prog-circle">RED</div>
+      <div class="prog-label">The Forge</div>
+    </div>
+    <div class="prog-arrow" style="--arrow-from: var(--red-primary); --arrow-to: var(--purple-primary);"></div>
+    <div class="prog-node" style="--node-color: var(--purple-primary);">
+      <div class="prog-circle">PUR</div>
+      <div class="prog-label">The Mire</div>
+    </div>
+    <div class="prog-arrow" style="--arrow-from: var(--purple-primary); --arrow-to: var(--yellow-primary);"></div>
+    <div class="prog-node" style="--node-color: var(--yellow-primary);">
+      <div class="prog-circle">YLW</div>
+      <div class="prog-label">The Swarm</div>
+    </div>
+  </div>
+
+  <div class="premise-grid fade-in" style="margin-top: 60px;">
+    <div>
+      <h3 class="section-label">XP & Leveling</h3>
+      <div class="premise-text" style="font-size: 14px;">
+        Enemies drop XP. <strong>100 XP per level.</strong> Lower-level enemies drop less XP.
+        <br><br>
+        Each level grants a point to allocate into: Damage, Attack Rate, Attack Range, Crit Chance, Bullet Speed, Move Speed. Points can be reallocated at any time.
+      </div>
+    </div>
+    <div>
+      <h3 class="section-label">Collectibles</h3>
+      <div class="premise-stats" style="grid-template-columns: 1fr;">
+        <div class="stat-card">
+          <div class="stat-value" style="font-size: 24px;">36</div>
+          <div class="stat-label">Heart Container Fragments (4 per upgrade)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="font-size: 24px;">8</div>
+          <div class="stat-label">Energy Tanks</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" style="font-size: 24px;">6</div>
+          <div class="stat-label">Universal Upgrades</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ZONES -->
+<section id="zones">
+  <div class="section-label fade-in">05 / Zones & Bosses</div>
+  <div class="section-title fade-in">The Six Territories</div>
+  <div class="zones-intro fade-in">
+    The Grid is divided into six faction-controlled zones, each with a distinct visual identity, enemy composition, hazard set, and boss encounter. Each zone's ruler guards an ability essential for deeper exploration.
+  </div>
+
+  <!-- CYAN -->
+  <div class="zone-section fade-in" style="--zone-primary: var(--cyan-primary); --zone-glow: var(--cyan-primary);">
+    <div class="zone-header">
+      <div class="zone-color-strip"></div>
+      <div class="zone-header-content">
+        <div class="zone-name">THE DEEP</div>
+        <div class="zone-subtitle">Cyan Zone</div>
+        <div class="zone-identity">Organic, dark, oceanic. Enemies are fast and evasive. A hunt in murky water. Speed and stealth in darkness.</div>
+        <div class="zone-palette">
+          <div class="zone-swatch" style="background: #0A225C;" data-hex="#0A225C"></div>
+          <div class="zone-swatch" style="background: #0A2A32;" data-hex="#0A2A32"></div>
+          <div class="zone-swatch" style="background: #4CF3CC;" data-hex="#4CF3CC"></div>
+          <div class="zone-swatch" style="background: #1A6398;" data-hex="#1A6398"></div>
+          <div class="zone-swatch" style="background: #3EA4BD;" data-hex="#3EA4BD"></div>
+        </div>
+      </div>
+    </div>
+    <div class="zone-details">
+      <div class="zone-detail-group">
+        <h4>Gating</h4>
+        <p>Open — no ability required. Dark and dangerous but accessible from the start.</p>
+        <h4 style="margin-top: 20px;">Dominant Enemies</h4>
+        <ul>
+          <li>Orbiters — Circle at fixed radius</li>
+          <li>Leeches — Fast, drain health on attach</li>
+          <li>Phasers — Phase-dash through player</li>
+          <li>Cloakers — Stalking, invisible until striking</li>
+        </ul>
+      </div>
+      <div class="zone-detail-group">
+        <h4>Hazards</h4>
+        <ul>
+          <li>Current Channels — Push in fixed direction</li>
+          <li>Pressure Zones — Slow movement, darken</li>
+          <li>Laser Grids & Electric Fences</li>
+        </ul>
+        <h4 style="margin-top: 20px;">Upgrade Cache</h4>
+        <p>Piercing Rounds — hidden behind destructible wall</p>
+        <h4 style="margin-top: 20px;">Layout</h4>
+        <p>Hub-spiral ~8x9. Entry at center, boss adjacent. Spiral descent through quadrants.</p>
+      </div>
+      <div class="zone-boss-card">
+        <div class="boss-visual" style="border-color: var(--cyan-primary);">
+          <img src="svg/bosses/depth.svg" alt="DEPTH">
+        </div>
+        <div>
+          <div class="boss-name">DEPTH</div>
+          <div class="boss-type">The Serpent — Concentric Rings</div>
+          <div class="boss-phases">
+            <div class="boss-phase">
+              <div class="phase-label">Phase 1</div>
+              <div class="phase-desc">Circles arena perimeter. Segments fire inward sonar rings. Head lunges across arena.</div>
+            </div>
+            <div class="boss-phase">
+              <div class="phase-label">Phase 2</div>
+              <div class="phase-desc">Submerges to near-invisible. Only sonar pulses reveal position. Surfaces to strike.</div>
+            </div>
+            <div class="boss-phase">
+              <div class="phase-label">Phase 3</div>
+              <div class="phase-desc">Fragments into three smaller serpents that independently chase while firing sonar rings.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLUE -->
+  <div class="zone-section fade-in" style="--zone-primary: var(--blue-primary); --zone-glow: var(--blue-secondary);">
+    <div class="zone-header">
+      <div class="zone-color-strip"></div>
+      <div class="zone-header-content">
+        <div class="zone-name">THE VEIL</div>
+        <div class="zone-subtitle">Blue Zone</div>
+        <div class="zone-identity">Crystalline, dreamlike, deceptive. Enemies confuse and misdirect. A puzzle wrapped in a hall of mirrors.</div>
+        <div class="zone-palette">
+          <div class="zone-swatch" style="background: #315E76;" data-hex="#315E76"></div>
+          <div class="zone-swatch" style="background: #322F5A;" data-hex="#322F5A"></div>
+          <div class="zone-swatch" style="background: #4A71CC;" data-hex="#4A71CC"></div>
+          <div class="zone-swatch" style="background: #881A78;" data-hex="#881A78"></div>
+          <div class="zone-swatch" style="background: #5A3C6F;" data-hex="#5A3C6F"></div>
+        </div>
+      </div>
+    </div>
+    <div class="zone-details">
+      <div class="zone-detail-group">
+        <h4>Gating</h4>
+        <p>Requires Sonar Pulse. Hall of mirrors entrance — true path hidden among decoys.</p>
+        <h4 style="margin-top: 20px;">Dominant Enemies</h4>
+        <ul>
+          <li>Reflectors — Bounce projectiles back</li>
+          <li>Cloakers — Invisible stalkers</li>
+          <li>Disruptors — Reverse player controls</li>
+        </ul>
+      </div>
+      <div class="zone-detail-group">
+        <h4>Hazards</h4>
+        <ul>
+          <li>Phase Walls — Flicker in/out on timer</li>
+          <li>Mirror Panels — Reflect projectiles</li>
+          <li>Distortion Fields — Scramble visuals</li>
+        </ul>
+        <h4 style="margin-top: 20px;">Upgrade Cache</h4>
+        <p>Charge Beam — inside false wall revealed by reflected projectile</p>
+        <h4 style="margin-top: 20px;">Layout</h4>
+        <p>Symmetric maze ~8x8. Mirror-image wings. High connectivity, many loops. Boss at (7,4).</p>
+      </div>
+      <div class="zone-boss-card">
+        <div class="boss-visual" style="border-color: var(--blue-primary);">
+          <img src="svg/bosses/veil.svg" alt="VEIL">
+        </div>
+        <div>
+          <div class="boss-name">VEIL</div>
+          <div class="boss-type">The Polyhedron — Shifting Shapes</div>
+          <div class="boss-phases">
+            <div class="boss-phase">
+              <div class="phase-label">Phase 1</div>
+              <div class="phase-desc">Creates 4 copies. Only real one takes damage. Copies shatter on one hit. Reshuffles.</div>
+            </div>
+            <div class="boss-phase">
+              <div class="phase-label">Phase 2</div>
+              <div class="phase-desc">Projects holographic walls creating shifting maze. Teleports between gaps.</div>
+            </div>
+            <div class="boss-phase">
+              <div class="phase-label">Phase 3</div>
+              <div class="phase-desc">Projects a copy of the player's ship that mirrors movement and fires back.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GREY -->
+  <div class="zone-section fade-in" style="--zone-primary: var(--grey-primary); --zone-glow: var(--grey-secondary);">
+    <div class="zone-header">
+      <div class="zone-color-strip"></div>
+      <div class="zone-header-content">
+        <div class="zone-name">THE NULL</div>
+        <div class="zone-subtitle">Grey Zone</div>
+        <div class="zone-identity">Utilitarian, silent, clinical. Enemies are armored and coordinated. A fortress with no personality. Methodical defense and erasure.</div>
+        <div class="zone-palette">
+          <div class="zone-swatch" style="background: #0F0F0F;" data-hex="#0F0F0F"></div>
+          <div class="zone-swatch" style="background: #3A3A3A;" data-hex="#3A3A3A"></div>
+          <div class="zone-swatch" style="background: #707070;" data-hex="#707070"></div>
+          <div class="zone-swatch" style="background: #A8A8A8;" data-hex="#A8A8A8"></div>
+          <div class="zone-swatch" style="background: #D4D4D4;" data-hex="#D4D4D4"></div>
+        </div>
+      </div>
+    </div>
+    <div class="zone-details">
+      <div class="zone-detail-group">
+        <h4>Gating</h4>
+        <p>Requires Phase Shift. Sealed security barriers only bypassed by phasing through.</p>
+        <h4 style="margin-top: 20px;">Dominant Enemies</h4>
+        <ul>
+          <li>Turrets — Stationary firepower</li>
+          <li>Shield Bearers — Must be flanked</li>
+          <li>Tanks — Slow, heavy, resilient</li>
+          <li>Sentinels & Conductors</li>
+        </ul>
+      </div>
+      <div class="zone-detail-group">
+        <h4>Hazards</h4>
+        <ul>
+          <li>Null Zones — Expanding damage patches</li>
+          <li>EMP Pulses — Disable dash briefly</li>
+          <li>Lockdown Gates — Trap until cleared</li>
+        </ul>
+        <h4 style="margin-top: 20px;">Upgrade Cache</h4>
+        <p>Shield Capacitor — behind 3 consecutive lockdown rooms</p>
+        <h4 style="margin-top: 20px;">Layout</h4>
+        <p>Linear fortress ~10x4. Horizontal march. Minimal branching. Grid-aligned.</p>
+      </div>
+      <div class="zone-boss-card">
+        <div class="boss-visual" style="border-color: var(--grey-primary);">
+          <img src="svg/bosses/null.svg" alt="NULL">
+        </div>
+        <div>
+          <div class="boss-name">NULL</div>
+          <div class="boss-type">The Void — Erasing Geometry</div>
+          <div class="boss-phases">
+            <div class="boss-phase">
+              <div class="phase-label">Phase 1</div>
+              <div class="phase-desc">Black rectangle at center erases geometry. Grey pulse waves. Destroy perimeter turrets to expose core.</div>
+            </div>
+            <div class="boss-phase">
+              <div class="phase-label">Phase 2</div>
+              <div class="phase-desc">NULL moves, slowly chasing. Contact is instant death. Turrets reposition between volleys.</div>
+            </div>
+            <div class="boss-phase">
+              <div class="phase-label">Phase 3</div>
+              <div class="phase-desc">Fragments into grid of smaller black squares sweeping in formation. Last one holds the core.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RED -->
+  <div class="zone-section fade-in" style="--zone-primary: var(--red-primary); --zone-glow: var(--red-secondary);">
+    <div class="zone-header">
+      <div class="zone-color-strip"></div>
+      <div class="zone-header-content">
+        <div class="zone-name">THE FORGE</div>
+        <div class="zone-subtitle">Red Zone</div>
+        <div class="zone-identity">Industrial, aggressive, alive. Enemies hit hard and soak damage. A gauntlet that respects you for surviving. Overwhelming firepower.</div>
+        <div class="zone-palette">
+          <div class="zone-swatch" style="background: #440007;" data-hex="#440007"></div>
+          <div class="zone-swatch" style="background: #A22D39;" data-hex="#A22D39"></div>
+          <div class="zone-swatch" style="background: #F81C1F;" data-hex="#F81C1F"></div>
+          <div class="zone-swatch" style="background: #FDF597;" data-hex="#FDF597"></div>
+          <div class="zone-swatch" style="background: #E9A724;" data-hex="#E9A724"></div>
+        </div>
+      </div>
+    </div>
+    <div class="zone-details">
+      <div class="zone-detail-group">
+        <h4>Gating</h4>
+        <p>Requires Overclock. Timed security gates need speed to pass through.</p>
+        <h4 style="margin-top: 20px;">Dominant Enemies</h4>
+        <ul>
+          <li>Tanks — Slow, heavy, absorb hits</li>
+          <li>Bombers — Drop mines from above</li>
+          <li>Pulsars — Radial shockwaves</li>
+          <li>Splitters & Conductors</li>
+        </ul>
+      </div>
+      <div class="zone-detail-group">
+        <h4>Hazards</h4>
+        <ul>
+          <li>Conveyor Lines — Push in fixed direction</li>
+          <li>Furnace Vents — Periodic fire cones</li>
+          <li>Slag Pools — Slow + damage over time</li>
+        </ul>
+        <h4 style="margin-top: 20px;">Upgrade Cache</h4>
+        <p>Rapid Cooldown — sealed room via conveyor through vent off-cycle</p>
+        <h4 style="margin-top: 20px;">Layout</h4>
+        <p>Gauntlet ~9x5. Wide corridor with arena breakouts. Conveyors push forward.</p>
+      </div>
+      <div class="zone-boss-card">
+        <div class="boss-visual" style="border-color: var(--red-primary);">
+          <img src="svg/bosses/forge.svg" alt="FORGE">
+        </div>
+        <div>
+          <div class="boss-name">FORGE</div>
+          <div class="boss-type">The Anvil — Orbiting Hammers</div>
+          <div class="boss-phases">
+            <div class="boss-phase">
+              <div class="phase-label">Phase 1</div>
+              <div class="phase-desc">Launches hammers that bounce off walls and return. Slams ground sending shockwaves along conveyors.</div>
+            </div>
+            <div class="boss-phase">
+              <div class="phase-label">Phase 2</div>
+              <div class="phase-desc">Superheats to gold. All four hammers rapid-fire. Conveyors speed up. Mines from above.</div>
+            </div>
+            <div class="boss-phase">
+              <div class="phase-label">Phase 3</div>
+              <div class="phase-desc">Detaches and charges, trailing wall of fire. Hammers orbit independently.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PURPLE -->
+  <div class="zone-section fade-in" style="--zone-primary: var(--purple-primary); --zone-glow: var(--purple-secondary);">
+    <div class="zone-header">
+      <div class="zone-color-strip"></div>
+      <div class="zone-header-content">
+        <div class="zone-name">THE MIRE</div>
+        <div class="zone-subtitle">Purple Zone</div>
+        <div class="zone-identity">Organic, parasitic, suffocating. Enemies drain and restrict. An organism that wants to absorb you. Attrition and area denial.</div>
+        <div class="zone-palette">
+          <div class="zone-swatch" style="background: #FCC7FE;" data-hex="#FCC7FE"></div>
+          <div class="zone-swatch" style="background: #3F2833;" data-hex="#3F2833"></div>
+          <div class="zone-swatch" style="background: #0A0105;" data-hex="#0A0105"></div>
+          <div class="zone-swatch" style="background: #9F0E7F;" data-hex="#9F0E7F"></div>
+          <div class="zone-swatch" style="background: #734C87;" data-hex="#734C87"></div>
+        </div>
+      </div>
+    </div>
+    <div class="zone-details">
+      <div class="zone-detail-group">
+        <h4>Gating</h4>
+        <p>Requires Burst Fire. Reinforced creep walls — hardened organic barriers.</p>
+        <h4 style="margin-top: 20px;">Dominant Enemies</h4>
+        <ul>
+          <li>Whip Tentacles — Arc sweep attacks</li>
+          <li>Leeches — Attach and drain health</li>
+          <li>Weavers — Lay tripwire webs</li>
+          <li>Hives — Endlessly spawn swarmers</li>
+        </ul>
+      </div>
+      <div class="zone-detail-group">
+        <h4>Hazards</h4>
+        <ul>
+          <li>Creep — Spreading health-drain patches</li>
+          <li>Spore Clouds — Obscure + reverse controls</li>
+          <li>Tentacle Walls — Grab and hold player</li>
+        </ul>
+        <h4 style="margin-top: 20px;">Upgrade Cache</h4>
+        <p>Magnetic Pull — end of longest dead-end branch</p>
+        <h4 style="margin-top: 20px;">Layout</h4>
+        <p>Branching root system ~8x8. Boss at center (4,4). Many dead ends. No straight lines.</p>
+      </div>
+      <div class="zone-boss-card">
+        <div class="boss-visual" style="border-color: var(--purple-primary);">
+          <img src="svg/bosses/mire.svg" alt="MIRE">
+        </div>
+        <div>
+          <div class="boss-name">MIRE</div>
+          <div class="boss-type">The Terrain — The Arena Itself</div>
+          <div class="boss-phases">
+            <div class="boss-phase">
+              <div class="phase-label">Phase 1</div>
+              <div class="phase-desc">Tendrils sweep arena floor in patterns. Core exposed between waves. Whip tentacles from walls.</div>
+            </div>
+            <div class="boss-phase">
+              <div class="phase-label">Phase 2</div>
+              <div class="phase-desc">Leeches spawn continuously. Tendrils faster. Hive nodes appear spawning swarmers.</div>
+            </div>
+            <div class="boss-phase">
+              <div class="phase-label">Phase 3</div>
+              <div class="phase-desc">Core detaches to center, surrounded by rotating tentacle shield. Arena continues shrinking.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- YELLOW -->
+  <div class="zone-section fade-in" style="--zone-primary: var(--yellow-primary); --zone-glow: var(--yellow-secondary);">
+    <div class="zone-header">
+      <div class="zone-color-strip"></div>
+      <div class="zone-header-content">
+        <div class="zone-name">THE SWARM</div>
+        <div class="zone-subtitle">Yellow Zone</div>
+        <div class="zone-identity">Chaotic, buzzing, overwhelming. Enemies come in massive numbers. A swarm that pities your loneliness. Volume and numbers.</div>
+        <div class="zone-palette">
+          <div class="zone-swatch" style="background: #FCE323;" data-hex="#FCE323"></div>
+          <div class="zone-swatch" style="background: #A65904;" data-hex="#A65904"></div>
+          <div class="zone-swatch" style="background: #F59F0A;" data-hex="#F59F0A"></div>
+          <div class="zone-swatch" style="background: #703203;" data-hex="#703203"></div>
+          <div class="zone-swatch" style="background: #F32649;" data-hex="#F32649"></div>
+        </div>
+      </div>
+    </div>
+    <div class="zone-details">
+      <div class="zone-detail-group">
+        <h4>Gating</h4>
+        <p>Requires Leech Drain. Border zone covered in corrupted terrain draining health rapidly.</p>
+        <h4 style="margin-top: 20px;">Dominant Enemies</h4>
+        <ul>
+          <li>Swarmers — Fast, one-hit, in waves</li>
+          <li>Hives — Constant swarmer generation</li>
+          <li>Orbiters — Deadly orbit rings</li>
+          <li>Splitters — Multiply on death</li>
+        </ul>
+      </div>
+      <div class="zone-detail-group">
+        <h4>Hazards</h4>
+        <ul>
+          <li>Swarm Tunnels — Flowing swarmer rivers</li>
+          <li>Hive Nodes — Indestructible, periodic spawns</li>
+          <li>Pollen Burst — Blind + attract swarmers</li>
+        </ul>
+        <h4 style="margin-top: 20px;">Upgrade Cache</h4>
+        <p>Rear Turret — center of densest hive cluster</p>
+        <h4 style="margin-top: 20px;">Layout</h4>
+        <p>Honeycomb ~7x7. Dense hex-grid network. Maximum connectivity. No dead ends.</p>
+      </div>
+      <div class="zone-boss-card">
+        <div class="boss-visual" style="border-color: var(--yellow-primary);">
+          <img src="svg/bosses/swarm.svg" alt="SWARM">
+        </div>
+        <div>
+          <div class="boss-name">SWARM</div>
+          <div class="boss-type">The Hive Mind — Golden Triangle Cloud</div>
+          <div class="boss-phases">
+            <div class="boss-phase">
+              <div class="phase-label">Phase 1</div>
+              <div class="phase-desc">Sends swarmer waves from cloud. Compresses into dense ball and charges. Shoot compressed form.</div>
+            </div>
+            <div class="boss-phase">
+              <div class="phase-label">Phase 2</div>
+              <div class="phase-desc">Splits into two smaller clouds attacking from different directions. Both must be destroyed.</div>
+            </div>
+            <div class="boss-phase">
+              <div class="phase-label">Phase 3</div>
+              <div class="phase-desc">Disperses into storm of individual triangles. Bright core hides among them — periodic flashes reveal it.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- LIEUTENANTS -->
+<section id="lieutenants">
+  <div class="section-label fade-in">06 / Lieutenants</div>
+  <div class="section-title fade-in">Zone Enforcers</div>
+  <div class="lt-grid">
+    <div class="lt-card fade-in" style="--lt-color: #4CF3CC;">
+      <div class="lt-svg"><img src="svg/lieutenants/echo.svg" alt="Echo"></div>
+      <div class="lt-name">Echo</div>
+      <div class="lt-role">Herald of DEPTH</div>
+      <div class="lt-desc">A flickering school of tiny triangles moving in unison. Delivers warnings to intruders before DEPTH engages. Speaks more deliberately as it begins to doubt.</div>
+    </div>
+    <div class="lt-card fade-in" style="--lt-color: #4A71CC;">
+      <div class="lt-svg"><img src="svg/lieutenants/refract.svg" alt="Refract"></div>
+      <div class="lt-name">Refract</div>
+      <div class="lt-role">Reflector of VEIL</div>
+      <div class="lt-desc">Created to be VEIL's mirror. Bounces the player's fire back at them. Mini-boss guarding the approach to VEIL. Speaks in flat, direct statements.</div>
+    </div>
+    <div class="lt-card fade-in" style="--lt-color: #D4D4D4;">
+      <div class="lt-svg"><img src="svg/lieutenants/warden.svg" alt="Warden"></div>
+      <div class="lt-name">Warden</div>
+      <div class="lt-role">Shield Bearer of NULL</div>
+      <div class="lt-desc">Massive shield bearer patrolling the outer ring. Completely silent. Must be flanked to damage. Once a program with identity, now a lobotomized shell.</div>
+    </div>
+    <div class="lt-card fade-in" style="--lt-color: #F81C1F;">
+      <div class="lt-svg"><img src="svg/lieutenants/crucible.svg" alt="Crucible"></div>
+      <div class="lt-name">Crucible</div>
+      <div class="lt-role">Weaponsmith of FORGE</div>
+      <div class="lt-desc">A bomber flying predetermined routes, dropping mines and incendiary charges. Built from a program that challenged FORGE and lost — both weapon and monument.</div>
+    </div>
+    <div class="lt-card fade-in" style="--lt-color: #9F0E7F;">
+      <div class="lt-svg"><img src="svg/lieutenants/spore.svg" alt="Spore"></div>
+      <div class="lt-name">Spore</div>
+      <div class="lt-role">Propagator of MIRE</div>
+      <div class="lt-desc">A weaver that lays corrupted line segments that spread and branch, choking off escape routes. Remembers being separate but MIRE regrows the connections.</div>
+    </div>
+    <div class="lt-card fade-in" style="--lt-color: #FCE323;">
+      <div class="lt-svg"><img src="svg/lieutenants/drone-queen.svg" alt="Drone Queen"></div>
+      <div class="lt-name">Drone Queen</div>
+      <div class="lt-role">Coordinator of SWARM</div>
+      <div class="lt-desc">A large orbiter directing swarmers with visible command lines. Destroying the queen causes connected swarmers to scatter. Every queen killed is a mercy.</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ENEMIES -->
+<section id="enemies">
+  <div class="section-label fade-in">07 / Enemies</div>
+  <div class="section-title fade-in">Enemy Compendium</div>
+  <div class="enemies-grid">
+    <div class="enemy-card fade-in" style="--enemy-color: #FF6600;">
+      <div class="enemy-svg"><img src="svg/enemies/turret.svg" alt="Turret"></div>
+      <div class="enemy-name">Turret</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>3s</span></div><div class="enemy-stat">Move: <span>None</span></div></div>
+      <div class="enemy-desc">Stationary. Shoots various projectiles. Cannon rotates to aim at player.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 30%; background: #FF6600;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #FF6600;">
+      <div class="enemy-svg"><img src="svg/enemies/moving-turret.svg" alt="Moving Turret"></div>
+      <div class="enemy-name">Moving Turret</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>3s</span></div><div class="enemy-stat">Move: <span>Slow</span></div></div>
+      <div class="enemy-desc">Slow patrol or toward player. Same fire as turret. Pauses movement to fire.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 30%; background: #FF6600;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #AAFF00;">
+      <div class="enemy-svg"><img src="svg/enemies/swarmer.svg" alt="Swarmer"></div>
+      <div class="enemy-name">Swarmer</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>0.5s</span></div><div class="enemy-stat">Move: <span>Fast</span></div></div>
+      <div class="enemy-desc">Small triangle. Bee-lines in groups. Contact damage. Spawns in waves from hive points.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 5%; background: #AAFF00;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #FF00CC;">
+      <div class="enemy-svg"><img src="svg/enemies/whip-tentacle.svg" alt="Whip Tentacle"></div>
+      <div class="enemy-name">Whip Tentacle</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>4s</span></div><div class="enemy-stat">Move: <span>Slow</span></div></div>
+      <div class="enemy-desc">Segmented tentacles sweep in telegraphed arcs. Slow drift toward player.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 40%; background: #FF00CC;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #DC143C;">
+      <div class="enemy-svg"><img src="svg/enemies/tank.svg" alt="Tank"></div>
+      <div class="enemy-name">Tank</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>10s</span></div><div class="enemy-stat">Move: <span>Slow</span></div></div>
+      <div class="enemy-desc">Large hexagon. Slow large projectiles. Absorbs hits without flinching.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 100%; background: #DC143C;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #00CED1;">
+      <div class="enemy-svg"><img src="svg/enemies/orbiter.svg" alt="Orbiter"></div>
+      <div class="enemy-name">Orbiter</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>2s</span></div><div class="enemy-stat">Move: <span>Orbit</span></div></div>
+      <div class="enemy-desc">Circles player at fixed radius. Fires inward while orbiting.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 20%; background: #00CED1;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #FFD700;">
+      <div class="enemy-svg"><img src="svg/enemies/splitter.svg" alt="Splitter"></div>
+      <div class="enemy-name">Splitter</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>3s + 3x1s</span></div><div class="enemy-stat">Move: <span>Med</span></div></div>
+      <div class="enemy-desc">Large pentagon that breaks into 3 smaller triangles on death.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 60%; background: #FFD700;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #AADDFF;">
+      <div class="enemy-svg"><img src="svg/enemies/cloaker.svg" alt="Cloaker"></div>
+      <div class="enemy-name">Cloaker</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>2s</span></div><div class="enemy-stat">Move: <span>Stalk</span></div></div>
+      <div class="enemy-desc">Fades in/out. Only visible when attacking or damaged. Decloaks at close range.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 20%; background: #AADDFF;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #C0C0C0;">
+      <div class="enemy-svg"><img src="svg/enemies/shield-bearer.svg" alt="Shield Bearer"></div>
+      <div class="enemy-name">Shield Bearer</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>6s</span></div><div class="enemy-stat">Move: <span>Slow</span></div></div>
+      <div class="enemy-desc">Front shield absorbs all damage. Must be flanked. Charges periodically.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 60%; background: #C0C0C0;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #FF69B4;">
+      <div class="enemy-svg"><img src="svg/enemies/bomber.svg" alt="Bomber"></div>
+      <div class="enemy-name">Bomber</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>4s</span></div><div class="enemy-stat">Move: <span>Fly</span></div></div>
+      <div class="enemy-desc">Flies over play area ignoring walls. Drops mines along flight path.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 40%; background: #FF69B4;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #0080FF;">
+      <div class="enemy-svg"><img src="svg/enemies/sniper.svg" alt="Sniper"></div>
+      <div class="enemy-name">Sniper</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>2s</span></div><div class="enemy-stat">Move: <span>Teleport</span></div></div>
+      <div class="enemy-desc">Charges high-damage shot with laser telegraph. Teleports after firing.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 20%; background: #0080FF;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #39FF14;">
+      <div class="enemy-svg"><img src="svg/enemies/leech.svg" alt="Leech"></div>
+      <div class="enemy-name">Leech</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>1s</span></div><div class="enemy-stat">Move: <span>Fast</span></div></div>
+      <div class="enemy-desc">Tiny circle. Homes in, attaches, drains health. Shake off by dashing.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 10%; background: #39FF14;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #8A2BE2;">
+      <div class="enemy-svg"><img src="svg/enemies/pulsar.svg" alt="Pulsar"></div>
+      <div class="enemy-name">Pulsar</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>5s</span></div><div class="enemy-stat">Move: <span>None</span></div></div>
+      <div class="enemy-desc">Concentric rings. Radial shockwave at intervals. Safe at close range between pulses.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 50%; background: #8A2BE2;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #FFBF00;">
+      <div class="enemy-svg"><img src="svg/enemies/weaver.svg" alt="Weaver"></div>
+      <div class="enemy-name">Weaver</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>3s</span></div><div class="enemy-stat">Move: <span>Zig-zag</span></div></div>
+      <div class="enemy-desc">Spider-like octagon. Lays damaging tripwire segments. Creates web of hazards.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 30%; background: #FFBF00;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #00FFFF;">
+      <div class="enemy-svg"><img src="svg/enemies/phaser.svg" alt="Phaser"></div>
+      <div class="enemy-name">Phaser</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>2s</span></div><div class="enemy-stat">Move: <span>Charge</span></div></div>
+      <div class="enemy-desc">Phase-dashes through player dealing damage. Invulnerable while dashing.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 20%; background: #00FFFF;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #EAE0C8;">
+      <div class="enemy-svg"><img src="svg/enemies/reflector.svg" alt="Reflector"></div>
+      <div class="enemy-name">Reflector</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>4s</span></div><div class="enemy-stat">Move: <span>Orbit</span></div></div>
+      <div class="enemy-desc">Flat rectangle with mirrored front. Reflects projectiles. Hit from side or rear.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 40%; background: #EAE0C8;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #9ACD32;">
+      <div class="enemy-svg"><img src="svg/enemies/hive.svg" alt="Hive"></div>
+      <div class="enemy-name">Hive</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>8s</span></div><div class="enemy-stat">Move: <span>None</span></div></div>
+      <div class="enemy-desc">Large hexagonal lattice. Spawns swarmers periodically. Faster when damaged.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 80%; background: #9ACD32;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #BF00FF;">
+      <div class="enemy-svg"><img src="svg/enemies/disruptor.svg" alt="Disruptor"></div>
+      <div class="enemy-name">Disruptor</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>3s</span></div><div class="enemy-stat">Move: <span>Mid</span></div></div>
+      <div class="enemy-desc">Jagged star with crackling noise. Fires scramble pulse that reverses player controls.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 30%; background: #BF00FF;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #FFF5E1;">
+      <div class="enemy-svg"><img src="svg/enemies/sentinel.svg" alt="Sentinel"></div>
+      <div class="enemy-name">Sentinel</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>6s</span></div><div class="enemy-stat">Move: <span>Pursue</span></div></div>
+      <div class="enemy-desc">Dormant until triggered. Once active, rapid bursts and relentless chase. Cannot be deactivated.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 60%; background: #FFF5E1;"></div></div>
+    </div>
+    <div class="enemy-card fade-in" style="--enemy-color: #FFFF33;">
+      <div class="enemy-svg"><img src="svg/enemies/conductor.svg" alt="Conductor"></div>
+      <div class="enemy-name">Conductor</div>
+      <div class="enemy-stats"><div class="enemy-stat">HP: <span>4s</span></div><div class="enemy-stat">Move: <span>Drift</span></div></div>
+      <div class="enemy-desc">No direct attack. Tethers to 4 enemies boosting speed/fire rate. Tether lines deal contact damage. Priority target.</div>
+      <div class="enemy-health-bar"><div class="enemy-health-fill" style="width: 40%; background: #FFFF33;"></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- HAZARDS -->
+<section id="hazards">
+  <div class="section-label fade-in">08 / Hazards</div>
+  <div class="section-title fade-in">Environmental Threats</div>
+  <div class="hazards-grid">
+    <div class="hazard-card fade-in" style="--hazard-color: #ff3333;">
+      <div class="hazard-svg"><img src="svg/hazards/laser-grid.svg" alt="Laser Grid"></div>
+      <div class="hazard-name">Laser Grid</div>
+      <div class="hazard-desc">Parallel lines pulse brighter before activating. Toggles on/off. Contact damage + blocks projectiles.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #ff9900;">
+      <div class="hazard-svg"><img src="svg/hazards/mine-field.svg" alt="Mine Field"></div>
+      <div class="hazard-name">Mine Field</div>
+      <div class="hazard-desc">Small diamonds with pulsing glow. Proximity detonation with blast radius. Damages all.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #888888;">
+      <div class="hazard-svg"><img src="svg/hazards/crusher.svg" alt="Crusher"></div>
+      <div class="hazard-name">Crusher</div>
+      <div class="hazard-desc">Thick parallel walls slide together and retract. Instant kill. Telegraphed by glow.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #ffff00;">
+      <div class="hazard-svg"><img src="svg/hazards/electric-fence.svg" alt="Electric Fence"></div>
+      <div class="hazard-name">Electric Fence</div>
+      <div class="hazard-desc">Posts connected by jagged flickering lines. Persistent barrier. Disable by destroying posts or switch.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #4CF3CC;">
+      <div class="hazard-svg"><img src="svg/hazards/current-channel.svg" alt="Current Channel"></div>
+      <div class="hazard-name">Current Channel</div>
+      <div class="hazard-desc">Flowing lines that push player in a fixed direction. Must cross or ride strategically.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #3EA4BD;">
+      <div class="hazard-svg"><img src="svg/hazards/pressure-zone.svg" alt="Pressure Zone"></div>
+      <div class="hazard-name">Pressure Zone</div>
+      <div class="hazard-desc">Movement slows, background darkens. Simulates crushing depth.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #4A71CC;">
+      <div class="hazard-svg"><img src="svg/hazards/phase-wall.svg" alt="Phase Wall"></div>
+      <div class="hazard-name">Phase Wall</div>
+      <div class="hazard-desc">Barriers flicker in/out on timer. Pass through when off, blocked when on.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #EAE0C8;">
+      <div class="hazard-svg"><img src="svg/hazards/mirror-panel.svg" alt="Mirror Panel"></div>
+      <div class="hazard-name">Mirror Panel</div>
+      <div class="hazard-desc">Stationary reflectors bouncing player projectiles. Tactical use around corners.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #881A78;">
+      <div class="hazard-svg"><img src="svg/hazards/distortion-field.svg" alt="Distortion Field"></div>
+      <div class="hazard-name">Distortion Field</div>
+      <div class="hazard-desc">Visual display scrambles. Enemies hard to distinguish from background.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #D4D4D4;">
+      <div class="hazard-svg"><img src="svg/hazards/null-zone.svg" alt="Null Zone"></div>
+      <div class="hazard-name">Null Zone</div>
+      <div class="hazard-desc">Patches of absolute black dealing rapid damage. Expand slowly over time.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #A8A8A8;">
+      <div class="hazard-svg"><img src="svg/hazards/emp-pulse.svg" alt="EMP Pulse"></div>
+      <div class="hazard-name">EMP Pulse</div>
+      <div class="hazard-desc">Periodic area-wide flash disabling dash for seconds.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #707070;">
+      <div class="hazard-svg"><img src="svg/hazards/lockdown-gate.svg" alt="Lockdown Gate"></div>
+      <div class="hazard-name">Lockdown Gate</div>
+      <div class="hazard-desc">Doors slam shut when triggered. Trapped until all enemies cleared.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #F81C1F;">
+      <div class="hazard-svg"><img src="svg/hazards/conveyor-line.svg" alt="Conveyor Line"></div>
+      <div class="hazard-name">Conveyor Line</div>
+      <div class="hazard-desc">Moving lines pushing player and enemies. Variable speed.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #E9A724;">
+      <div class="hazard-svg"><img src="svg/hazards/furnace-vent.svg" alt="Furnace Vent"></div>
+      <div class="hazard-name">Furnace Vent</div>
+      <div class="hazard-desc">Periodic damage cone. Telegraphed by brightening before firing.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #FDF597;">
+      <div class="hazard-svg"><img src="svg/hazards/slag-pool.svg" alt="Slag Pool"></div>
+      <div class="hazard-name">Slag Pool</div>
+      <div class="hazard-desc">Stationary amber areas. Slows movement and deals damage over time.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #9F0E7F;">
+      <div class="hazard-svg"><img src="svg/hazards/creep.svg" alt="Creep"></div>
+      <div class="hazard-name">Creep</div>
+      <div class="hazard-desc">Spreading magenta patches draining health. Burned back temporarily by shooting.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #FCC7FE;">
+      <div class="hazard-svg"><img src="svg/hazards/spore-cloud.svg" alt="Spore Cloud"></div>
+      <div class="hazard-name">Spore Cloud</div>
+      <div class="hazard-desc">Drifting particles obscuring vision and reversing controls on contact.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #734C87;">
+      <div class="hazard-svg"><img src="svg/hazards/tentacle-wall.svg" alt="Tentacle Wall"></div>
+      <div class="hazard-name">Tentacle Wall</div>
+      <div class="hazard-desc">Living barriers grabbing on contact, holding player for 2 seconds.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #FCE323;">
+      <div class="hazard-svg"><img src="svg/hazards/swarm-tunnel.svg" alt="Swarm Tunnel"></div>
+      <div class="hazard-name">Swarm Tunnel</div>
+      <div class="hazard-desc">Narrow passages with flowing swarmer rivers. Crossing deals rapid damage.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #F59F0A;">
+      <div class="hazard-svg"><img src="svg/hazards/hive-node.svg" alt="Hive Node"></div>
+      <div class="hazard-name">Hive Node</div>
+      <div class="hazard-desc">Indestructible terrain. Periodically spawns swarmer waves. Only avoided.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #F32649;">
+      <div class="hazard-svg"><img src="svg/hazards/pollen-burst.svg" alt="Pollen Burst"></div>
+      <div class="hazard-name">Pollen Burst</div>
+      <div class="hazard-desc">Golden particle explosion blinding player and attracting swarmers.</div>
+    </div>
+    <div class="hazard-card fade-in" style="--hazard-color: #888888;">
+      <div class="hazard-svg"><img src="svg/hazards/asteroid-debris.svg" alt="Asteroid Debris"></div>
+      <div class="hazard-name">Asteroid Debris</div>
+      <div class="hazard-desc">Irregular polygons drifting across the screen. Contact damage. Larger asteroids split into fragments.</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ITEMS -->
+<section id="items">
+  <div class="section-label fade-in">09 / Items</div>
+  <div class="section-title fade-in">Universal Upgrades</div>
+  <div class="zones-intro fade-in">
+    Hidden in caches within zones. Each provides a permanent passive enhancement found only once in the Grid.
+  </div>
+  <div class="items-grid">
+    <div class="item-card fade-in">
+      <div class="item-svg"><img src="svg/items/shield-capacitor.svg" alt="Shield Capacitor"></div>
+      <div class="item-name">Shield Capacitor</div>
+      <div class="item-desc">+1 max health. Found in The Null behind 3 consecutive lockdown rooms.</div>
+    </div>
+    <div class="item-card fade-in">
+      <div class="item-svg"><img src="svg/items/rapid-cooldown.svg" alt="Rapid Cooldown"></div>
+      <div class="item-name">Rapid Cooldown</div>
+      <div class="item-desc">Reduces dash cooldown by 25%. Stacks twice. Found in The Forge via conveyor timing.</div>
+    </div>
+    <div class="item-card fade-in">
+      <div class="item-svg"><img src="svg/items/magnetic-pull.svg" alt="Magnetic Pull"></div>
+      <div class="item-name">Magnetic Pull</div>
+      <div class="item-desc">Pickups attracted from further away. Found in The Mire at the longest dead-end branch.</div>
+    </div>
+    <div class="item-card fade-in">
+      <div class="item-svg"><img src="svg/items/piercing-rounds.svg" alt="Piercing Rounds"></div>
+      <div class="item-name">Piercing Rounds</div>
+      <div class="item-desc">Projectiles pass through the first enemy hit. Found in The Deep behind a destructible wall.</div>
+    </div>
+    <div class="item-card fade-in">
+      <div class="item-svg"><img src="svg/items/rear-turret.svg" alt="Rear Turret"></div>
+      <div class="item-name">Rear Turret</div>
+      <div class="item-desc">Auto-turret fires backward at nearby enemies. Found in The Swarm's densest hive cluster.</div>
+    </div>
+    <div class="item-card fade-in">
+      <div class="item-svg"><img src="svg/items/charge-beam.svg" alt="Charge Beam"></div>
+      <div class="item-name">Charge Beam</div>
+      <div class="item-desc">Hold fire to charge a powerful piercing shot. Found in The Veil behind a reflected-projectile wall.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-title">VECTROID</div>
+  <div class="footer-sub">A Combat Progress Adventure</div>
+</footer>
+
+<script>
+// Starfield
+const starfield = document.getElementById('starfield');
+for (let i = 0; i < 80; i++) {
+  const star = document.createElement('div');
+  star.className = 'star';
+  star.style.left = Math.random() * 100 + '%';
+  star.style.top = Math.random() * 100 + '%';
+  star.style.setProperty('--dur', (2 + Math.random() * 4) + 's');
+  star.style.setProperty('--max-o', (0.2 + Math.random() * 0.5).toString());
+  star.style.animationDelay = -Math.random() * 5 + 's';
+  if (Math.random() > 0.7) {
+    star.style.width = '2px';
+    star.style.height = '2px';
+  }
+  starfield.appendChild(star);
+}
+
+// Scroll-triggered fade-ins
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Nav scroll state
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// Active nav link
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const top = section.offsetTop - 100;
+    if (window.scrollY >= top) {
+      current = section.getAttribute('id');
+    }
+  });
+  navLinks.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+</body>
+</html>

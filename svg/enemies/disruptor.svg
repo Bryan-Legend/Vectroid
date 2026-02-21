@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Jagged 8-pointed star shape -->
+  <polygon points="32,6 36,22 50,12 40,26 58,26 42,32 58,38 40,38 50,52 36,42 32,58 28,42 14,52 24,38 6,38 22,32 6,26 24,26 14,12 28,22" stroke="#BF00FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Center detail -->
+  <circle cx="32" cy="32" r="3" stroke="#BF00FF" stroke-width="1" fill="none"/>
+  <!-- Crackling zigzag lines radiating from tips -->
+  <!-- Top -->
+  <polyline points="32,6 31,3 33,1" stroke="#BF00FF" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+  <!-- Top-right -->
+  <polyline points="50,12 53,10 54,7" stroke="#BF00FF" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+  <!-- Right-top -->
+  <polyline points="58,26 61,25 63,27" stroke="#BF00FF" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+  <!-- Right-bottom -->
+  <polyline points="58,38 61,39 63,37" stroke="#BF00FF" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+  <!-- Bottom-right -->
+  <polyline points="50,52 52,55 54,53" stroke="#BF00FF" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+  <!-- Bottom -->
+  <polyline points="32,58 33,61 31,63" stroke="#BF00FF" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+  <!-- Bottom-left -->
+  <polyline points="14,52 12,55 10,53" stroke="#BF00FF" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+  <!-- Left -->
+  <polyline points="6,26 3,25 1,27" stroke="#BF00FF" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+</svg>

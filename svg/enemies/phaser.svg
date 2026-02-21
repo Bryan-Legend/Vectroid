@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Afterimage 2 (furthest back, most faint) -->
+  <polygon points="30,32 18,24 12,32 18,40" stroke="#00FFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.25"/>
+  <!-- Afterimage 1 (middle) -->
+  <polygon points="38,32 26,24 20,32 26,40" stroke="#00FFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+  <!-- Main elongated diamond pointing right -->
+  <polygon points="52,32 36,22 28,32 36,42" stroke="#00FFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="1.0"/>
+  <!-- Motion blur lines -->
+  <line x1="10" y1="30" x2="6" y2="30" stroke="#00FFFF" stroke-width="0.8" stroke-linecap="round" opacity="0.2"/>
+  <line x1="10" y1="34" x2="6" y2="34" stroke="#00FFFF" stroke-width="0.8" stroke-linecap="round" opacity="0.2"/>
+</svg>

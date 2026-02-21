@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Echo: Flickering school of 8-10 tiny triangles in fish-school V formation, all pointing right -->
+  <!-- Lead triangle (point of the V) -->
+  <polygon points="42,32 36,29 36,35" stroke="#4CF3CC" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="1"/>
+  <!-- Second row (2 triangles) -->
+  <polygon points="34,28 28,25 28,31" stroke="#4CF3CC" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+  <polygon points="34,36 28,33 28,39" stroke="#4CF3CC" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
+  <!-- Third row (2 triangles, wider spread) -->
+  <polygon points="28,24 22,21 22,27" stroke="#4CF3CC" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>
+  <polygon points="28,40 22,37 22,43" stroke="#4CF3CC" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" opacity="0.7"/>
+  <!-- Fourth row (2 triangles, widest) -->
+  <polygon points="22,20 16,17 16,23" stroke="#4CF3CC" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+  <polygon points="22,44 16,41 16,47" stroke="#4CF3CC" stroke-width="0.9" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"/>
+  <!-- Straggler triangles (slightly off-formation, flickering) -->
+  <polygon points="30,31 25,28.5 25,33.5" stroke="#4CF3CC" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+  <polygon points="26,36 21,33.5 21,38.5" stroke="#4CF3CC" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+  <polygon points="18,26 13,23.5 13,28.5" stroke="#4CF3CC" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+</svg>

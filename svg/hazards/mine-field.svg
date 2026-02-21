@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Mine 1 (top-left) -->
+  <polygon points="16,14 20,18 16,22 12,18" stroke="#ff9900" stroke-width="1.5" stroke-linejoin="round"/>
+  <circle cx="16" cy="18" r="6" stroke="#ff9900" stroke-width="0.8" opacity="0.25"/>
+  <circle cx="16" cy="18" r="10" stroke="#ff9900" stroke-width="0.5" opacity="0.12"/>
+  <!-- Mine 2 (center-right) -->
+  <polygon points="42,28 46,32 42,36 38,32" stroke="#ff9900" stroke-width="1.5" stroke-linejoin="round"/>
+  <circle cx="42" cy="32" r="6" stroke="#ff9900" stroke-width="0.8" opacity="0.25"/>
+  <circle cx="42" cy="32" r="10" stroke="#ff9900" stroke-width="0.5" opacity="0.12"/>
+  <!-- Mine 3 (bottom-left) -->
+  <polygon points="22,42 26,46 22,50 18,46" stroke="#ff9900" stroke-width="1.5" stroke-linejoin="round"/>
+  <circle cx="22" cy="46" r="6" stroke="#ff9900" stroke-width="0.8" opacity="0.25"/>
+  <circle cx="22" cy="46" r="10" stroke="#ff9900" stroke-width="0.5" opacity="0.12"/>
+</svg>

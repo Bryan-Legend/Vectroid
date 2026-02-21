@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Horseshoe magnet body (U shape) -->
+  <path d="M18 14 L18 38 Q18 50 32 50 Q46 50 46 38 L46 14"
+        stroke="#00f0ff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Left pole cap -->
+  <rect x="13" y="10" width="10" height="6" rx="1" stroke="#00f0ff" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Right pole cap -->
+  <rect x="41" y="10" width="10" height="6" rx="1" stroke="#00f0ff" stroke-width="1.5" stroke-linejoin="round"/>
+  <!-- Left pole line (tip bar) -->
+  <line x1="14" y1="13" x2="22" y2="13" stroke="#00f0ff" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+  <!-- Right pole line (tip bar) -->
+  <line x1="42" y1="13" x2="50" y2="13" stroke="#00f0ff" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+  <!-- Attraction field line 1 (innermost) -->
+  <path d="M22 12 Q28 6 32 6 Q36 6 42 12" stroke="#00f0ff" stroke-width="1" stroke-linecap="round" opacity="0.8" stroke-dasharray="none"/>
+  <!-- Attraction field line 2 -->
+  <path d="M20 9 Q28 1 32 1 Q36 1 44 9" stroke="#00f0ff" stroke-width="1" stroke-linecap="round" opacity="0.55"/>
+  <!-- Attraction field line 3 (outermost) -->
+  <path d="M17 7 Q27 -3 32 -3 Q37 -3 47 7" stroke="#00f0ff" stroke-width="1" stroke-linecap="round" opacity="0.3"/>
+  <!-- Attracted particle dots -->
+  <circle cx="26" cy="3" r="1" fill="#00f0ff" opacity="0.7"/>
+  <circle cx="38" cy="2" r="0.8" fill="#00f0ff" opacity="0.5"/>
+  <circle cx="32" cy="0" r="1.2" fill="#00f0ff" opacity="0.9"/>
+  <circle cx="22" cy="7" r="0.7" fill="#00f0ff" opacity="0.4"/>
+  <circle cx="43" cy="6" r="0.7" fill="#00f0ff" opacity="0.4"/>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Left post -->
+  <circle cx="10" cy="32" r="4" stroke="#ffff00" stroke-width="1.5"/>
+  <circle cx="10" cy="32" r="1.5" fill="#ffff00"/>
+  <!-- Right post -->
+  <circle cx="54" cy="32" r="4" stroke="#ffff00" stroke-width="1.5"/>
+  <circle cx="54" cy="32" r="1.5" fill="#ffff00"/>
+  <!-- Zigzag line 1 (top) -->
+  <polyline points="14,26 20,23 26,29 32,22 38,28 44,23 50,26" stroke="#ffff00" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Zigzag line 2 (middle) -->
+  <polyline points="14,32 20,28 26,35 32,27 38,34 44,28 50,32" stroke="#ffff00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Zigzag line 3 (bottom) -->
+  <polyline points="14,38 20,35 26,41 32,34 38,40 44,35 50,38" stroke="#ffff00" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Small spark accents -->
+  <line x1="30" y1="18" x2="32" y2="15" stroke="#ffff00" stroke-width="0.8" opacity="0.6" stroke-linecap="round"/>
+  <line x1="32" y1="15" x2="34" y2="18" stroke="#ffff00" stroke-width="0.8" opacity="0.6" stroke-linecap="round"/>
+  <line x1="28" y1="45" x2="30" y2="42" stroke="#ffff00" stroke-width="0.8" opacity="0.6" stroke-linecap="round"/>
+  <line x1="30" y1="42" x2="32" y2="45" stroke="#ffff00" stroke-width="0.8" opacity="0.6" stroke-linecap="round"/>
+</svg>

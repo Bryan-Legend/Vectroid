@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <radialGradient id="core-glow" cx="16" cy="14" r="8" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#00f0ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bg-vignette" cx="16" cy="16" r="16" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0a0a1a"/>
+      <stop offset="100%" stop-color="#030308"/>
+    </radialGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="32" height="32" rx="6" fill="url(#bg-vignette)"/>
+  <!-- Subtle grid lines -->
+  <line x1="0" y1="16" x2="32" y2="16" stroke="#00f0ff" stroke-width="0.15" opacity="0.2"/>
+  <line x1="16" y1="0" x2="16" y2="32" stroke="#00f0ff" stroke-width="0.15" opacity="0.2"/>
+  <!-- Core glow halo -->
+  <circle cx="16" cy="14" r="8" fill="url(#core-glow)"/>
+  <!-- Ship chevron / V shape -->
+  <path d="M16 6 L6 26 L16 20 L26 26 Z"
+    stroke="#00f0ff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"
+    fill="none"/>
+  <!-- Inner chevron accent -->
+  <path d="M16 11 L11 22 L16 19 L21 22 Z"
+    stroke="#00f0ff" stroke-width="0.6" stroke-linejoin="round"
+    fill="none" opacity="0.3"/>
+  <!-- Bright core -->
+  <circle cx="16" cy="15" r="2" fill="#00f0ff" opacity="0.9"/>
+  <circle cx="16" cy="15" r="1" fill="#ffffff"/>
+</svg>
