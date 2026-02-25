@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VECTROID — Trailer Concepts</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=IBM+Plex+Mono:ital,wght@0,300;0,400;1,300&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cyan: #00ffd5;
+    --cyan-dim: #00ffd533;
+    --magenta: #ff2a6d;
+    --magenta-dim: #ff2a6d22;
+    --blue: #05d9e8;
+    --yellow: #f5e642;
+    --bg: #05050a;
+    --card-bg: #0a0a14;
+    --grid-color: #0d1a2a;
+    --text: #c0d0e0;
+    --text-dim: #506070;
+  }
+
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ── Animated grid background ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridScroll 20s linear infinite;
+    opacity: 0.5;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  @keyframes gridScroll {
+    to { background-position: 0 60px, 60px 0; }
+  }
+
+  /* ── Scanline overlay ── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.08) 2px,
+      rgba(0, 0, 0, 0.08) 4px
+    );
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  /* ── Header ── */
+  .header {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 100px 20px 60px;
+  }
+
+  .header-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+    animation: fadeSlideUp 0.8s ease both;
+  }
+
+  .header h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3rem, 8vw, 6rem);
+    letter-spacing: 0.15em;
+    color: transparent;
+    background: linear-gradient(135deg, var(--cyan), var(--magenta));
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: drop-shadow(0 0 40px rgba(0, 255, 213, 0.3)) drop-shadow(0 0 80px rgba(255, 42, 109, 0.15));
+    animation: fadeSlideUp 0.8s 0.15s ease both;
+    position: relative;
+  }
+
+  .header h1::after {
+    content: 'VECTROID';
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    background: linear-gradient(135deg, var(--cyan), var(--magenta));
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: blur(30px);
+    opacity: 0.5;
+    z-index: -1;
+  }
+
+  .header-sub {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 400;
+    font-size: clamp(0.8rem, 2vw, 1.1rem);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-top: 16px;
+    animation: fadeSlideUp 0.8s 0.3s ease both;
+  }
+
+  .header-line {
+    width: 200px;
+    height: 1px;
+    margin: 40px auto 0;
+    background: linear-gradient(90deg, transparent, var(--cyan-dim), var(--cyan), var(--cyan-dim), transparent);
+    animation: fadeSlideUp 0.8s 0.45s ease both;
+  }
+
+  /* ── Concept cards ── */
+  .concepts {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 120px;
+  }
+
+  .concept {
+    position: relative;
+    margin-bottom: 60px;
+    padding: 40px 44px;
+    background: var(--card-bg);
+    border: 1px solid #141428;
+    border-radius: 2px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .concept.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .concept::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 2px;
+    background: linear-gradient(135deg, var(--cyan-dim), transparent 40%, transparent 60%, var(--magenta-dim));
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .concept:hover::before {
+    opacity: 1;
+  }
+
+  .concept:hover {
+    border-color: #1a1a38;
+    box-shadow:
+      0 0 60px rgba(0, 255, 213, 0.04),
+      0 0 120px rgba(255, 42, 109, 0.03);
+  }
+
+  /* ── Concept number ── */
+  .concept-number {
+    position: absolute;
+    top: -14px;
+    left: 40px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    padding: 4px 14px;
+    background: var(--bg);
+    border: 1px solid #1a1a38;
+    color: var(--text-dim);
+  }
+
+  /* ── Concept title ── */
+  .concept h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    letter-spacing: 0.08em;
+    margin-bottom: 24px;
+    position: relative;
+    display: inline-block;
+  }
+
+  .concept:nth-child(9n+1) h2 { color: var(--cyan); text-shadow: 0 0 30px rgba(0, 255, 213, 0.25); }
+  .concept:nth-child(9n+2) h2 { color: #d17aff; text-shadow: 0 0 30px rgba(209, 122, 255, 0.25); }
+  .concept:nth-child(9n+3) h2 { color: var(--magenta); text-shadow: 0 0 30px rgba(255, 42, 109, 0.25); }
+  .concept:nth-child(9n+4) h2 { color: var(--yellow); text-shadow: 0 0 30px rgba(245, 230, 66, 0.25); }
+  .concept:nth-child(9n+5) h2 { color: var(--blue); text-shadow: 0 0 30px rgba(5, 217, 232, 0.25); }
+  .concept:nth-child(9n+6) h2 { color: #ff6b35; text-shadow: 0 0 30px rgba(255, 107, 53, 0.25); }
+  .concept:nth-child(9n+7) h2 { color: #7fefbd; text-shadow: 0 0 30px rgba(127, 239, 189, 0.25); }
+  .concept:nth-child(9n+8) h2 { color: #a0a0ff; text-shadow: 0 0 30px rgba(160, 160, 255, 0.25); }
+  .concept:nth-child(9n+9) h2 { color: #ff4f79; text-shadow: 0 0 30px rgba(255, 79, 121, 0.25); }
+
+  .concept h2::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    margin-top: 14px;
+    background: currentColor;
+    opacity: 0.4;
+  }
+
+  .concept p {
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.85;
+    max-width: 720px;
+  }
+
+  .concept p .hook {
+    color: #8899aa;
+    font-style: italic;
+  }
+
+  .concept p .quote {
+    color: #e0e8f0;
+    font-weight: 400;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 0 20px 80px;
+  }
+
+  .footer-line {
+    width: 200px;
+    height: 1px;
+    margin: 0 auto 30px;
+    background: linear-gradient(90deg, transparent, #1a1a38, transparent);
+  }
+
+  .footer p {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  /* ── Animations ── */
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    .concept { padding: 28px 24px; }
+    .concept-number { left: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-label">Trailer Concepts</div>
+  <h1>VECTROID</h1>
+  <div class="header-sub">9 High Concepts</div>
+  <div class="header-line"></div>
+</header>
+
+<main class="concepts">
+
+  <article class="concept">
+    <div class="concept-number">CONCEPT 01</div>
+    <h2>"You Are the Virus"</h2>
+    <p>Open on a serene digital utopia. Programs go about their routines. A caption reads: <span class="quote">"The Grid was perfect."</span> Then Vex arrives. Smash cut to carnage&mdash;rooms full of destroyed programs, bosses ripped apart, abilities stolen. The trailer recontextualizes the player as the thing every faction is terrified of. The final line, delivered by a boss mid-death: <span class="quote">"You don't even know what you are."</span> End on Vex standing in a field of particle debris, twitching. <span class="hook">The hook is that the hero might be the villain, and the player has been too busy shooting to notice.</span></p>
+  </article>
+
+  <article class="concept">
+    <div class="concept-number">CONCEPT 02</div>
+    <h2>"What's Under the Last Face?"</h2>
+    <p>A tight, claustrophobic trailer. Vex peels back a boss's exterior and beneath it is another layer. Then another. Quick cuts of boss fights, each defeated boss breaking apart to reveal the same blank geometry underneath. The tone is existential horror. A whispered voiceover asks, <span class="quote">"If everything on The Grid is just a shell&mdash;what happens when there's nothing inside?"</span> The final shot is Vex looking down at their own hands as they flicker. Hard cut to black. The sound of something tearing. <span class="hook">The hook is pure dread: identity isn't hidden in this world, it doesn't exist.</span></p>
+  </article>
+
+  <article class="concept">
+    <div class="concept-number">CONCEPT 03</div>
+    <h2>"60 Seconds of Dying"</h2>
+    <p>No story. No lore. Just Vex dying over and over for sixty straight seconds. Crushed, shot, dissolved, swarmed, impaled, burned, drowned. Every death is a different enemy, a different room, a different nightmare. The deaths are fast, brutal, and almost funny in their variety&mdash;until the tone shifts at the 45-second mark and the deaths slow down, linger, get uncomfortably quiet. Final card: <span class="quote">"Vectroid. You will learn."</span> <span class="hook">The hook is radical honesty&mdash;this game will kill you, and it's not sorry.</span></p>
+  </article>
+
+  <article class="concept">
+    <div class="concept-number">CONCEPT 04</div>
+    <h2>"Stolen Power"</h2>
+    <p>Open on six boss silhouettes floating in darkness, slowly rotating. A voice says: <span class="quote">"Every ability on The Grid was built. Designed. Protected."</span> Beat. <span class="quote">"Until Vex."</span> Vex's hand reaches into a boss mid-combat and rips something out. The stolen ability fuses to Vex and their moveset transforms instantly&mdash;dash becomes surf, shot becomes beam, the entire screen palette shifts. Rapid montage of Vex tearing through encounters with stolen powers that were never meant to be combined. <span class="hook">The hook is the power fantasy of taking what isn't yours and becoming something that was never supposed to exist.</span></p>
+  </article>
+
+  <article class="concept">
+    <div class="concept-number">CONCEPT 05</div>
+    <h2>"They Remember You"</h2>
+    <p>The trailer opens with a boss monologue, calm and deliberate, spoken directly to camera: <span class="quote">"The first time you came here, you died in the hallway."</span> Gameplay of Vex dying in a hallway. <span class="quote">"The second time, you made it to my door."</span> Vex dies at a door. <span class="quote">"The fourteenth time, you killed me."</span> The boss dies. Long pause. <span class="quote">"So why am I still here?"</span> The boss is back, stronger, different. <span class="hook">The hook is that your victories might not stick&mdash;and the game knows your history.</span></p>
+  </article>
+
+  <article class="concept">
+    <div class="concept-number">CONCEPT 06</div>
+    <h2>"Born Wrong"</h2>
+    <p>The entire trailer is glitched. Not stylistically&mdash;structurally. It starts mid-sentence. Cuts happen too early. Audio desyncs. A character is speaking but the subtitles say something completely different. Gameplay footage shows Vex moving through rooms that seem to be assembling themselves incorrectly&mdash;walls in the wrong places, enemies spawning inside each other. Then it all snaps into perfect clarity for three seconds: Vex standing still, looking directly at the camera. A single subtitle: <span class="quote">"I wasn't compiled. I was an accident."</span> Smash to title. <span class="hook">The hook is that the medium itself feels broken, and the protagonist knows it.</span></p>
+  </article>
+
+  <article class="concept">
+    <div class="concept-number">CONCEPT 07</div>
+    <h2>"Everyone Wore a Face"</h2>
+    <p>The trailer is a fake documentary. A calm narrator describes The Grid like a nature documentary describes an ecosystem. <span class="quote">"The factions developed hierarchies as a form of social order. Identity became... expendable."</span> Footage plays like field research&mdash;programs interacting, factions patrolling, bosses performing rituals. It's almost peaceful. Then the narrator's voice cracks: <span class="quote">"Subject V was not part of the original study."</span> Surveillance footage of Vex tearing through the ecosystem. The documentary tone collapses into chaos. <span class="hook">The hook is tonal whiplash&mdash;you thought you were watching something clinical, and then the experiment breaks containment.</span></p>
+  </article>
+
+  <article class="concept">
+    <div class="concept-number">CONCEPT 08</div>
+    <h2>"You Played This Game Before"</h2>
+    <p>The trailer opens with retro-styled footage of a fake game from 1987&mdash;simple vector graphics, bleeping soundtrack, a little ship navigating a grid. Caption: <span class="quote">"In 1987, a game was released that no one remembers."</span> The retro game glitches. The ship stops responding to input. It starts moving on its own. The 8-bit grid cracks open and the camera falls through into Vectroid's world&mdash;full color, full intensity. Vex looks up as if they've been here the whole time, waiting. <span class="quote">"You forgot about me. I didn't forget about you."</span> <span class="hook">The hook is a fictional lore-myth that the game has existed before, and its protagonist has been conscious the whole time.</span></p>
+  </article>
+
+  <article class="concept">
+    <div class="concept-number">CONCEPT 09</div>
+    <h2>"The Grid Goes Dark"</h2>
+    <p>Start with a wide shot of The Grid&mdash;alive, pulsing, beautiful. Programs everywhere. Then, silently, one sector goes black. Then another. The camera slowly zooms in as the darkness spreads. No music, just the hum of the grid dying sector by sector. Characters start running. Factions that were fighting each other stop and stare at the encroaching void together. In the final seconds, the darkness reaches the camera&mdash;and inside the black, two eyes open. Vex's eyes. They were the darkness the whole time. Title card. No tagline needed. <span class="hook">The hook is apocalyptic scale married to the reveal that the player is the apocalypse.</span></p>
+  </article>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-line"></div>
+  <p>Vectroid &mdash; Pre-Production</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.concept').forEach((el, i) => {
+    el.style.transitionDelay = `${i * 0.04}s`;
+    observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
