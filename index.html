@@ -1344,7 +1344,7 @@ footer {
 <section id="trailer" style="text-align: center;">
   <div class="section-label fade-in">00 / Reveal</div>
   <div class="section-title fade-in">First Look</div>
-  <video controls muted playsinline preload="metadata" class="fade-in" style="
+  <video id="revealVideo" controls playsinline preload="metadata" class="fade-in" style="
     width: 100%;
     max-width: 960px;
     border: 1px solid rgba(0,240,255,0.15);
@@ -2422,6 +2422,29 @@ function autoStart() {
 document.addEventListener('click', autoStart);
 document.addEventListener('scroll', autoStart);
 document.addEventListener('keydown', autoStart);
+
+// Mute background music while reveal video plays
+const revealVideo = document.getElementById('revealVideo');
+let musicWasPlaying = false;
+revealVideo.addEventListener('play', () => {
+  musicWasPlaying = !music.paused;
+  if (musicWasPlaying) {
+    music.pause();
+    musicBtn.classList.add('muted');
+  }
+});
+revealVideo.addEventListener('pause', () => {
+  if (musicWasPlaying) {
+    playMusic();
+    musicWasPlaying = false;
+  }
+});
+revealVideo.addEventListener('ended', () => {
+  if (musicWasPlaying) {
+    playMusic();
+    musicWasPlaying = false;
+  }
+});
 </script>
 </body>
 </html>
